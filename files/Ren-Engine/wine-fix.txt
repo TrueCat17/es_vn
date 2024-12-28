@@ -1,0 +1,4 @@
+If Wine say:
+	cygwin1.dll failed to initialize
+Then install upx and decompress it:
+	upx -d cygwin1.dll
