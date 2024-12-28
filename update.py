@@ -76,7 +76,15 @@ def get_current_files():
 
 
 def set_version():
+	extra_info = open(version_path, 'rb').read().decode('utf-8')
+	if '\n' in extra_info:
+		extra_info = extra_info[extra_info.index('\n'):]
+	else:
+		extra_info = ''
+	
 	formatted = time.strftime('%Y.%m.%d-%H:%M:%S')
+	formatted += extra_info
+	
 	with open(version_path, 'wb') as f:
 		f.write(formatted.encode('utf-8'))
 
