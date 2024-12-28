@@ -1,2 +1,5 @@
-/* export-ignore
-/es_vn/* export-subst
+/info.txt export-ignore
+/LICENSE export-ignore
+/README.md export-ignore
+/update.py export-ignore
+/version.txt export-ignore
