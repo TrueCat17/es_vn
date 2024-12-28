@@ -15,7 +15,7 @@ def get_hash(content):
 
 dir = os.path.dirname(os.path.abspath(__file__).replace('\\', '/')) + '/'
 zips_path = dir + 'zips/'
-files_path = dir + 'files/'
+files_path = dir + 'es_vn/'
 info_path = dir + 'info.txt'
 version_path = dir + 'version.txt'
 
