@@ -1,4 +1,4 @@
-init python:
+init -10 python:
 	pause_screen.hotspots = (
 		[(0,  83, 660, 65), Function(start_mod, 'main_menu')],
 		[(0, 148, 660, 65), Show('save')],
