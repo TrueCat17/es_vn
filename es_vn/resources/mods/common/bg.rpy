@@ -1,9 +1,11 @@
 init -1000:
-
-	$ default_decl_at = ["size (1.0, 1.0)"]
 	
-	image black = "images/bg/black.jpg"
-	image bg black = "images/bg/black.jpg"
+	$ default_decl_at = []
+	
+	image black = "images/bg/black.jpg":
+		size (1.0, 1.0)
+	image bg black = "images/bg/black.jpg":
+		size (1.0, 1.0)
 	
 	image bg bus_stop = "images/bg/bus_stop.jpg"
 	image bg ext_aidpost_day = "images/bg/ext_aidpost_day.jpg"
@@ -169,5 +171,3 @@ init -1000:
 			linear 1 alpha 0.0
 			pause 0.5
 			repeat
-	
-	$ default_decl_at = []

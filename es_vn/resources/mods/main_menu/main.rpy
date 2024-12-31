@@ -4,6 +4,10 @@ init python:
 	config.has_autosave = False
 	
 	pause_screen.disable = True
+	
+	main_menu_bgm = 'sound/music/blow_with_the_fires.ogg'
+#	show_screen('gallery')
+
 
 screen main_menu:
 	zorder -100
@@ -14,8 +18,8 @@ screen main_menu:
 		
 		hotspot ( 439, 265, 318, 621) action start_mod('std')
 		hotspot ( 787, 261, 270, 537) action Show('load')
-		hotspot ( 494, 125, 768,  86) action Notify('Не реализовано') #Show('info')
-		hotspot (1083, 258, 229, 538) action Notify('Не реализовано') #Show('gallery')
+		hotspot ( 494, 125, 768,  86) action Show('info')
+		hotspot (1083, 258, 229, 538) action Show('gallery')
 		hotspot (1067, 748, 252, 312) action Show('preferences')
 		hotspot (1459, 532, 149, 295) action exit_from_game hover_sound 'sound/sfx/menu_gate.ogg'
 	
@@ -51,6 +55,7 @@ init:
 
 
 label start:
+#	$ db.skip_tab = True
 	show bg soviet_games with dissolve
 	pause 3
 	show bg disclaimer with dissolve
@@ -65,13 +70,14 @@ label start:
 	pause 3
 	
 	$ show_screen('main_menu')
-	$ renpy.play('sound/music/blow_with_the_fires.ogg', 'music', fadein = 3)
+	$ my_play(main_menu_bgm, fadein = 3)
 	
 	hide bg
 	hide logo
 	with fade
 	
+	$ db.skip_tab = False
 	$ hide_screen('dialogue_box')
 	
 	while True:
-		pause 1
+		pause 0.1

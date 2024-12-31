@@ -1,6 +1,6 @@
 init -1000:
-
-	$ default_decl_at = ["size (1.0, 1.0)"]
+	
+	$ default_decl_at = []
 	
 	image cg d1_food_normal = "images/cg/d1_food_normal.jpg"
 	image cg d1_food_skolop = "images/cg/d1_food_skolop.jpg"
@@ -193,7 +193,6 @@ init -1000:
 	image cg epilogue_uv_mi_ending = "images/cg/epilogue_uv_mi.jpg"
 	image cg epilogue_uv_un_ending = "images/cg/epilogue_uv_un.jpg"
 	
-	$ default_decl_at = []
 	image cg d2_2ch_beach = "images/cg/d2_2ch_beach.jpg"
 	image cg d2_2ch_beach_ending = "images/cg/d2_2ch_beach.jpg"
 	image cg d7_un_suicide = "images/cg/d7_un_suicide.jpg"

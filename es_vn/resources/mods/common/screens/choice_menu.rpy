@@ -1,4 +1,4 @@
-init python:
+init -100 python:
 	choice_colors = {
 		'day':      '#466123',
 		'night':    '#145644',
@@ -12,6 +12,8 @@ init python:
 		'sunset':   '#dcd168',
 		'prologue': '#98d8da',
 	}
+	
+	choice_menu_show_db_btns = True
 
 init:
 	style choice_button:
@@ -54,4 +56,5 @@ screen choice_menu:
 			elif text is not None:
 				null style 'choice_button'
 	
-	use dialogue_box_buttons(disable_next_btn = True)
+	if choice_menu_show_db_btns:
+		use dialogue_box_buttons(disable_next_btn = True)

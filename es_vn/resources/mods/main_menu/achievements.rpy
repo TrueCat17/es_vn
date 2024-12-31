@@ -55,21 +55,13 @@ screen achievements:
 		yalign 0.083
 		
 		image 'images/misc/star.webp':
-			yalign 0.5
-			xsize 47 / 1920
-			ysize 45 / 1080
+			style 'title_star'
 		
 		text 'Концовки':
-			yalign 0.5
-			color '#FFF'
-			
-			font 'CenturyGothic'
-			text_size 60
+			style 'title'
 		
 		image 'images/misc/star.webp':
-			yalign 0.5
-			xsize 47 / 1920
-			ysize 45 / 1080
+			style 'title_star'
 	
 	
 	vbox:
@@ -107,13 +99,7 @@ screen achievements:
 	
 	
 	textbutton '← Назад':
-		style 'ach_btn'
-		text_align 'center'
-		text_size 60 / 1080
-		xsize 270 / 1920
-		ysize 65 / 1080
-		xalign 0.02
-		yalign 0.9
+		style 'back_btn'
 		action Hide('achievements')
 	
 	key 'ESCAPE' action Hide('achievements')

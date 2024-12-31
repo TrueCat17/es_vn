@@ -13,9 +13,6 @@ init -1000:
 		repeat
 	
 	
-	$ default_decl_at = ["size (1.0, 1.0)"]
-	
-	
 	image anim blink_down = "images/anim/blink_down.png"
 	image anim blink_up = "images/anim/blink_up.png"
 	
@@ -75,7 +72,7 @@ init -1000:
 	image backdrop = "images/anim/backdrop/back.jpg"
 	
 	image backdrop_new:
-		size 1.0
+		size (1.0, 1.0)
 		"images/anim/backdrop/1.png"
 		pause 0.1
 		"images/anim/backdrop/2.png"
