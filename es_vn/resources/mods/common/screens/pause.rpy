@@ -19,6 +19,7 @@ init -10 python:
 	pause_screen.show = show_pause
 	
 	
+	pause_screen.bg = im.rect('#000')
 	pause_screen.appearance_time    = 0.5
 	pause_screen.disappearance_time = 0.5
 	
@@ -49,12 +50,12 @@ screen pause:
 	key 'ESCAPE' action hide_pause
 	
 	button:
-		ground im.rect('#000')
-		hover  im.rect('#000')
+		corner_sizes 0
+		ground pause_screen.bg
+		hover  pause_screen.bg
 		
 		size 1.0
 		alpha 0.01
-		corner_sizes 0
 		mouse False
 		
 		action    hide_pause

@@ -183,9 +183,9 @@ screen gallery_bg_cg:
 							mouse  path != bg_cg_blocked
 							action show_gallery_image(image_name) if path != bg_cg_blocked else None
 							
+							corner_sizes 0
 							ground path
 							hover  get_bg_cg_hover(path)
-							corner_sizes 0
 							
 							xsize 320 / 1920
 							ysize 180 / 1080

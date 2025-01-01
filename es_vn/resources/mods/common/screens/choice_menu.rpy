@@ -35,6 +35,7 @@ screen choice_menu:
 	
 	if not choice_menu_show_db_btns:
 		button:
+			corner_sizes 0
 			ground im.rect('#000')
 			hover  im.rect('#000')
 			

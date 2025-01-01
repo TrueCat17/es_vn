@@ -26,8 +26,11 @@ init python:
 	
 	gui.dialogue_box_height = 151 / 1080
 	calc_gui_min('dialogue_box_height')
+	gui.dialogue_box_yalign = 0.994
 	
-	gui.dialogue_text_ypos = 42 / 1080
+	gui.dialogue_text_xpos = 20 / 1920
+	calc_gui_min('dialogue_text_xpos')
+	gui.dialogue_text_ypos = 46 / 1080
 	calc_gui_min('dialogue_text_ypos')
 	gui.dialogue_text_height = 0.09
 	gui.dialogue_text_size = 0.028

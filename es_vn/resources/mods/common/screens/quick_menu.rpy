@@ -25,6 +25,7 @@ screen quick_menu:
 						xsize 27 / 1920
 						ysize 20 / 1080
 						
+						corner_sizes 0
 						ground ground
 						hover  hover
 						
