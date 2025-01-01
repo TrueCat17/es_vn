@@ -28,9 +28,23 @@ init:
 	style choice_buttons_vbox:
 		spacing 3
 
+
 screen choice_menu:
 	modal True
 	zorder 100
+	
+	if not choice_menu_show_db_btns:
+		button:
+			ground im.rect('#000')
+			hover  im.rect('#000')
+			
+			size 1.0
+			alpha 0.05
+			mouse False
+			
+			action Hide('choice_menu')
+		
+		key 'ESCAPE' action Hide('choice_menu')
 	
 	image gui.choice_box:
 		align 0.5

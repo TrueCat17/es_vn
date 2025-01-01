@@ -24,6 +24,7 @@ screen main_menu:
 		hotspot (1459, 532, 149, 295) action exit_from_game hover_sound 'sound/sfx/menu_gate.ogg'
 	
 	button:
+		corner_sizes 0
 		ground 'images/gui/main_menu/owl_ground.webp'
 		hover  'images/gui/main_menu/owl_hover.webp'
 		
