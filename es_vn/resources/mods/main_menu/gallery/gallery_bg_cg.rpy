@@ -122,6 +122,8 @@ init python:
 			else:
 				cmds = get_image(image_name)
 				for cmd in cmds:
+					cmd, filename, numline = cmd
+					
 					if cmd[0] in '"\'': # path in quotes
 						path = cmd[1:-1]
 						path = path.replace('/bg/', '/bg_small/')

@@ -18,8 +18,8 @@ init -9990 python:
 		file_name, num_line = get_file_and_line(1)
 		_register_channel(name, mixer, loop, file_name, num_line)
 	
-	def renpy__music__get_audio_len(url):
-		return _get_audio_len(url)
+	def renpy__music__get_audio_len(path):
+		return _get_audio_len(path)
 	def renpy__music__get_mixer_volume(mixer):
 		return config.get(mixer + '_volume', None)
 	def renpy__music__set_mixer_volume(vol, mixer, depth = 0):
@@ -30,6 +30,9 @@ init -9990 python:
 	def renpy__music__add_mixer_volume(d, mixer):
 		renpy.music.set_mixer_volume(config[mixer + '_volume'] + d, mixer, depth=1)
 	
+	def renpy__music__get_volume(channel, depth = 0):
+		file_name, num_line = get_file_and_line(depth + 1)
+		return _get_volume_on_channel(channel, file_name, num_line)
 	def renpy__music__set_volume(vol, channel, depth = 0):
 		file_name, num_line = get_file_and_line(depth + 1)
 		_set_volume_on_channel(in_bounds(vol, 0, 1), channel, file_name, num_line)
@@ -48,16 +51,43 @@ init -9990 python:
 		file_name, num_line = get_file_and_line(depth + 1)
 		return _set_pause_on_channel(value, channel, file_name, num_line)
 	
-	def renpy__music__play(music_urls, channel, depth = 0, **kwargs):
-		fadein = kwargs.get('fadein', 0)
-		relative_volume=kwargs.get('relative_volume', 1.0)
-		music_url = music_urls if isinstance(music_urls, str) else music_urls[0]
+	def renpy__music__play(paths, channel = 'music', depth = 0, **kwargs):
+		if type(paths) is str:
+			paths = [paths]
+		
+		fadein  = kwargs.get('fadein', 0)
+		fadeout = kwargs.get('fadeout', config.fadeout_audio)
+		relative_volume = kwargs.get('relative_volume', 1.0)
 		file_name, num_line = get_file_and_line(depth + 1)
-		_play(channel + ' "%s" fadein %s volume %s' % (music_url, fadein, relative_volume), file_name, num_line)
-	def renpy__music__stop(channel, depth = 0, **kwargs):
-		fadeout = kwargs.get('fadeout', 0)
+		
+		for i, path in enumerate(paths):
+			if i == 0:
+				_play(channel, path, fadeout, fadein, relative_volume, file_name, num_line)
+			else:
+				_queue(channel, path, 0, relative_volume, file_name, num_line)
+	
+	def renpy__music__queue(paths, channel = 'music', depth = 0, **kwargs):
+		if type(paths) is str:
+			paths = [paths]
+		
+		fadein  = kwargs.get('fadein', 0)
+		relative_volume = kwargs.get('relative_volume', 1.0)
 		file_name, num_line = get_file_and_line(depth + 1)
-		_stop(channel + ' fadeout ' + str(float(fadeout)), file_name, num_line)
+		
+		for i, path in enumerate(paths):
+			_queue(channel, path, fadein if i == 0 else 0, relative_volume, file_name, num_line)
+	
+	def renpy__music__stop(channel = 'music', depth = 0, **kwargs):
+		fadeout = kwargs.get('fadeout', config.fadeout_audio)
+		file_name, num_line = get_file_and_line(depth + 1)
+		_stop(channel, fadeout, file_name, num_line)
+	
+	def renpy__music__get_playing(channel = 'music', depth = 0):
+		file_name, num_line = get_file_and_line(depth + 1)
+		return _get_playing(channel, file_name, num_line)
+	def renpy__music__is_playing(channel = 'music', depth = 0):
+		path = renpy.music.get_playing(channel, depth + 1)
+		return bool(path)
 	
 	
 	def renpy__easy__color(c):
@@ -199,7 +229,29 @@ init -9990 python:
 		input.ask_str(renpy.input_save, prompt, default, allow, exclude, length, mask, reset_btn = reset_btn, cancel_btn = False)
 		renpy.call('input_waiting')
 	
+	
+	def renpy__has_image(image_name):
+		return image_was_registered(image_name)
+	
+	def renpy__showing(image_name):
+		tag = sprites.get_tag_of_image_name(image_name)
+		for spr in sprites.list:
+			if spr.tag == tag:
+				return True
+		return False
+	
+	def renpy__scene():
+		sprites.set_scene((), ())
+	
+	def renpy__show(image_name, tag = None, behind = None, at = None, effect = None, is_scene = False):
+		sprites.show_impl(image_name, tag, behind, at, effect, is_scene)
+	
+	def renpy__hide(image_name, effect = None):
+		tag = sprites.get_tag_of_image_name(image_name)
+		sprites.hide_impl(tag, effect)
+	
 	build_object('renpy')
+	
 	
 	renpy.config   = persistent.config
 	renpy.Keymap   = dict
@@ -209,8 +261,9 @@ init -9990 python:
 	renpy.pause = pause
 	
 	renpy.music.has_channel = _has_channel
-	renpy.play = renpy.music.play
-	renpy.stop = renpy.music.stop
+	renpy.play  = renpy.music.play
+	renpy.queue = renpy.music.queue
+	renpy.stop  = renpy.music.stop
 	
 	renpy.show_screen = show_screen
 	renpy.hide_screen = hide_screen

@@ -3,8 +3,6 @@ init python:
 	# only for scaling sprites!
 	config.width, config.height = 1920, 1080
 	
-	default_decl_at = []
-	
 	# Sprite Recolor
 	def _sr(path):
 		return im.recolor(path, *sprite_time_rgb)

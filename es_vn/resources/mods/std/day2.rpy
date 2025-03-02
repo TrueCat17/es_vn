@@ -2249,8 +2249,8 @@ label dv_play_win:
 
 label day2_main3:
 	$ persistent.sprite_time = "sunset"
-	scene bg int_dining_hall_sunset
-	with dissolve
+	scene bg int_dining_hall_sunset with dissolve
+	$ hide_screen('card_engine')
 	
 	window show
 	

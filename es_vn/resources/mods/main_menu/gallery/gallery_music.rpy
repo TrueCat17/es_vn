@@ -80,16 +80,9 @@ init python:
 		end   = start + music_page_size
 		return music_box[start : end]
 	
-	music_path = ''
-	def my_play(path, fadein = 1):
-		global music_path
-		music_path = path
-		renpy.music.stop('music', fadeout = 1)
-		set_timeout(Function(renpy.music.play, path, channel = 'music'), 1)
-	
 	def on_gallery_hided(screen_name):
-		if screen_name == 'gallery' and music_path and music_path != main_menu_bgm:
-			my_play(main_menu_bgm)
+		if screen_name == 'gallery' and renpy.music.get_playing('music') != main_menu_bgm:
+			renpy.play(main_menu_bgm, fadeout = 1, fadein = 1)
 	signals.add('hide_screen', on_gallery_hided)
 
 
@@ -112,8 +105,8 @@ screen gallery_music:
 		for name, path in get_music_on_page():
 			textbutton name:
 				style 'music_btn' if renpy.seen_audio(path) else 'music_btn_blocked'
-				selected path == music_path
-				action my_play(path)
+				selected path == renpy.music.get_playing('music')
+				action renpy.play(path, fadeout = 1, fadein = 1)
 	
 	if music_page:
 		button:

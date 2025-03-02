@@ -1,6 +1,4 @@
 init -1000:
-
-	$ default_decl_at = []
 	
 	image cg lvl_1 = "images/cg/cards_contest/lvl_1.jpg"
 	image cg lvl_2_lena_win = "images/cg/cards_contest/lvl_2_lena_win.jpg"

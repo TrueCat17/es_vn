@@ -1,7 +1,5 @@
 init -1000:
 	
-	$ default_decl_at = []
-	
 	image black = "images/bg/black.jpg":
 		size (1.0, 1.0)
 	image bg black = "images/bg/black.jpg":

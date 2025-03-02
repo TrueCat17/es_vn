@@ -38,8 +38,6 @@ screen main_menu:
 
 
 init:
-	$ default_decl_at = []
-	
 	image bg soviet_games = 'images/misc/soviet_games.jpg'
 	image bg disclaimer   = 'images/misc/disclaimer.jpg'
 	
@@ -56,7 +54,7 @@ init:
 
 
 label start:
-#	$ db.skip_tab = True
+	#$ db.skip_tab = True
 	show bg soviet_games with dissolve
 	pause 3
 	show bg disclaimer with dissolve
@@ -71,7 +69,7 @@ label start:
 	pause 3
 	
 	$ show_screen('main_menu')
-	$ my_play(main_menu_bgm, fadein = 3)
+	$ renpy.play(main_menu_bgm, fadein = 3)
 	
 	hide bg
 	hide logo

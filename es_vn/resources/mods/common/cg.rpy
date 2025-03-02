@@ -1,7 +1,5 @@
 init -1000:
 	
-	$ default_decl_at = []
-	
 	image cg d1_food_normal = "images/cg/d1_food_normal.jpg"
 	image cg d1_food_skolop = "images/cg/d1_food_skolop.jpg"
 	image cg d1_grasshopper = "images/cg/d1_grasshopper.jpg"

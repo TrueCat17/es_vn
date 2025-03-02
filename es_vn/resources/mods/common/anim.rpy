@@ -1,6 +1,4 @@
 init -1000:
-
-	$ default_decl_at = []
 	
 	image anim owl_1 = "images/anim/owl_1.png"
 	image anim owl_2 = "images/anim/owl_2.png"
@@ -82,9 +80,6 @@ init -1000:
 		"images/anim/backdrop/2.png"
 		pause 0.1
 		repeat
-	
-	
-	$ default_decl_at = []
 	
 	
 	image stars:

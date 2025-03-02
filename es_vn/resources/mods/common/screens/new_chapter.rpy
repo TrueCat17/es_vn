@@ -1,9 +1,9 @@
+init:
+	transform backdrop_trans:
+		align (-0.2, 1.0)
+		linear 2.0 xalign 0.1
+
 init python:
-	backdrop_trans = SpriteAnimation((
-		'align (-0.2, 1.0)',
-		'linear 2.0 xalign 0.1',
-	))
-	
 	def new_chapter(day_number, chapter_name, backdrop):
 		global chapter_day_number, save_name, chapter_backdrop
 		chapter_day_number = str(day_number) if backdrop != 'epilogue' else '...'
@@ -25,7 +25,8 @@ label show_chapter:
 	$ chapter_show_time = get_game_time()
 	$ chapter_hide_time = None
 	$ show_screen('chapter')
-	pause 1
+	scene bg black with dissolve
+	hide bg with dissolve
 	$ chapter_show_time = get_game_time() - 1
 	
 	if chapter_backdrop == 'dv':
