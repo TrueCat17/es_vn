@@ -69,7 +69,7 @@ init -1000 python:
 			return
 		
 		for pname in pnames:
-			if pname not in d:
+			if pname not in d and pname != 'at':
 				d[pname] = None
 		if d['as'] is None:
 			d['as'] = params[0] if params else '<empty>'
@@ -91,7 +91,13 @@ init -1000 python:
 			decl_at = ()
 			params_str = '<empty> ' + params_str
 		
-		at     = eval_param(d, 'at')
+		if 'at' in d:
+			at = eval_param(d, 'at')
+			if at is None:
+				at = empty_transform
+		else:
+			at = None
+		
 		effect = eval_param(d, 'with')
 		
 		kwargs = dict(decl_at = decl_at, show_at = show_at, call_str = params_str)
@@ -99,8 +105,7 @@ init -1000 python:
 	
 	
 	def sprites__show_impl(image_name, tag = None, behind = None, at = None, effect = None, is_scene = False, **kwargs):
-		if not has_screen('sprites'):
-			show_screen('sprites')
+		show_screen('sprites')
 		
 		if 'decl_at' in kwargs:
 			decl_at = kwargs.pop('decl_at')
@@ -121,11 +126,13 @@ init -1000 python:
 			index = 0
 			while index < len(sprites.list):
 				spr = sprites.list[index]
-				if spr.tag == tag:
-					old_sprite = spr
-					sprites.list.pop(index)
-					break
-				index += 1
+				if spr.tag != tag:
+					index += 1
+					continue
+				
+				old_sprite = spr
+				sprites.list.pop(index)
+				break
 		
 		if at is None:
 			data = old_sprite and (old_sprite.new_data or old_sprite.old_data)
