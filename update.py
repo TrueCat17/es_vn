@@ -2,6 +2,7 @@
 import os
 import hashlib
 import time
+import zlib
 
 def error(msg):
 	print(msg)
@@ -15,9 +16,18 @@ def get_hash(content):
 
 dir = os.path.dirname(os.path.abspath(__file__).replace('\\', '/')) + '/'
 zips_path = dir + 'zips/'
-files_path = dir + 'es_vn/'
 info_path = dir + 'info.txt'
 version_path = dir + 'version.txt'
+
+params = {}
+with open(version_path, 'rb') as f:
+	content = f.read().decode('utf-8')
+	for param in content.split('\n'):
+		if '=' in param:
+			name, value = param.split('=')
+			params[name.strip()] = value.strip()
+
+files_path = dir + params.get('files_path', 'files').rstrip('/') + '/'
 
 os.makedirs(files_path, exist_ok = True)
 os.makedirs(zips_path, exist_ok = True)
@@ -76,11 +86,13 @@ def get_current_files():
 
 
 def set_version():
-	extra_info = open(version_path, 'rb').read().decode('utf-8')
-	if '\n' in extra_info:
-		extra_info = extra_info[extra_info.index('\n'):]
-	else:
-		extra_info = ''
+	with open(version_path, 'rb') as f:
+		extra_info = f.read().decode('utf-8')
+		i = extra_info.find('\n')
+		if i != -1:
+			extra_info = extra_info[i:]
+		else:
+			extra_info = ''
 	
 	formatted = time.strftime('%Y.%m.%d-%H:%M:%S')
 	formatted += extra_info
@@ -150,6 +162,19 @@ def content_remove(fn):
 	remove(files_path + fn)
 
 
+def make_compressed():
+	if not params.get('compress_info', False):
+		return
+	
+	with (
+		open(info_path, 'rb') as f,
+		open(info_path + '.z', 'wb') as c,
+	):
+		content = f.read()
+		compressed = zlib.compress(content, level = zlib.Z_BEST_COMPRESSION)
+		c.write(compressed)
+
+
 def main():
 	content_read()
 	
@@ -197,5 +222,6 @@ def main():
 		content_remove(d)
 	
 	content_write()
+	make_compressed()
 
 main()

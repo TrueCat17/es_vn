@@ -1,6 +1,7 @@
 /.gitattributes export-ignore
 /.gitignore export-ignore
 /info.txt export-ignore
+/info.txt.z export-ignore
 /LICENSE export-ignore
 /README.md export-ignore
 /update.py export-ignore
