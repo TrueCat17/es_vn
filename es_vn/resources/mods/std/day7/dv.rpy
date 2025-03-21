@@ -1034,7 +1034,7 @@ label epilogue_dv:
 	window hide
 	
 	$ persistent.sprite_time = "day"
-	$ show_snow(1)
+	$ show_snow(0.5)
 	scene bg bus_stop with dissolve
 	
 	window show
@@ -1046,7 +1046,7 @@ label epilogue_dv:
 	window hide
 	
 	$ persistent.sprite_time = "night"
-	$ hide_snow(1)
+	$ hide_snow(0.5)
 	scene bg intro_xx with dissolve
 	
 	window show

@@ -32,7 +32,6 @@ init python:
 		global snow_hide_time, snow_disappearance_time
 		snow_hide_time = get_game_time()
 		snow_disappearance_time = max(disappearance_time, 0.01)
-		hide_screen('snow')
 	
 	
 	def update_snow():
@@ -47,6 +46,8 @@ init python:
 			alpha = (get_game_time() - snow_show_time) / snow_appearance_time
 		else:
 			alpha = 1 - (get_game_time() - snow_hide_time) / snow_disappearance_time
+			if alpha <= 0:
+				hide_screen('snow')
 		return in_bounds(alpha, 0, 1)
 
 

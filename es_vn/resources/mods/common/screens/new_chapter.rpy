@@ -25,8 +25,7 @@ label show_chapter:
 	$ chapter_show_time = get_game_time()
 	$ chapter_hide_time = None
 	$ show_screen('chapter')
-	scene bg black with dissolve
-	hide bg with dissolve
+	scene with fade
 	$ chapter_show_time = get_game_time() - 1
 	
 	if chapter_backdrop == 'dv':

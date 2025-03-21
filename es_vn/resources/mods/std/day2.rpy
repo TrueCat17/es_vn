@@ -1854,9 +1854,7 @@ label demo_play:
 		VISIBLE = False
 		generate_cards(dialogs)
 		rival = CardGameRivalUn('un', 'Пробная игра')
-	hide bg
-	hide un
-	with dissolve
+	scene with dissolve
 	jump cards_gameloop
 
 label demo_play_intro:
@@ -2004,7 +2002,7 @@ label un_play:
 		}
 		generate_cards(dialogs)
 		rival = CardGameRivalUn('un', 'Лена')
-	hide bg with dissolve
+	scene with dissolve
 	jump cards_gameloop
 
 
@@ -2104,7 +2102,7 @@ label us_play:
 		}
 		generate_cards(dialogs)
 		rival = CardGameRivalUs('us', 'Ульяна')
-	hide bg with dissolve
+	scene with dissolve
 	jump cards_gameloop
 
 label us_play_fail:
@@ -2166,7 +2164,7 @@ label us2_play:
 		}
 		generate_cards(dialogs)
 		rival = CardGameRivalUs('us', 'Ульяна')
-	hide bg with dissolve
+	scene with dissolve
 	jump cards_gameloop
 
 label us2_play_fail:
@@ -2225,7 +2223,7 @@ label dv_play:
 		}
 		generate_cards(dialogs)
 		rival = CardGameRivalDv('dv', 'Алиса')
-	hide bg with dissolve
+	scene with dissolve
 	jump cards_gameloop
 
 label dv_play_draw:
@@ -2250,7 +2248,8 @@ label dv_play_win:
 label day2_main3:
 	$ persistent.sprite_time = "sunset"
 	scene bg int_dining_hall_sunset with dissolve
-	$ hide_screen('card_engine')
+	if has_screen('card_engine'):
+		$ hide_screen('card_engine')
 	
 	window show
 	

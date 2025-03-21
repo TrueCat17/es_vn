@@ -1114,7 +1114,7 @@ label epilogue_sl:
 		"..."
 		window hide
 		
-		$ hide_snow(3)
+		$ hide_snow(1.5)
 		scene black with fade3
 		
 		stop music fadeout 5
@@ -1131,7 +1131,7 @@ label epilogue_sl:
 		"Я уже собирался уходить, как вдруг из-за сплошной белой завесы кто-то вынырнул и забежал под козырёк остановки."
 		window hide
 		
-		$ hide_snow(1)
+		$ hide_snow(0.5)
 		scene cg epilogue_sl with dissolve
 		
 		window show
