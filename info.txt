@@ -61,7 +61,7 @@ Ren-Engine/rpy/screens/quick_menu.rpy|ce79f10909817d8e3342d4b1b23c911dff9d8d77b7
 Ren-Engine/rpy/screens/save.rpy|c34a38101cdfce8195fbce86befa05f92f7ab79ef167154abdac31099d54cbc2|147
 Ren-Engine/rpy/screens/slider_v.rpy|fe21e0ab46682ad647515b4656a26c39e5f95d29a55f79f1d871cc042295f9c1|3591
 Ren-Engine/rpy/screens/slots.rpy|da5f7b0b4f2a51c53bc5877aa928e66396184eb01f022c11ce98c1dc472cb55c|2712
-Ren-Engine/rpy/screens/sprites.rpy|afa463f4195f107126fed5a7a03bd4f8f47cd37df97ef1da643dccad9edc5e66|7204
+Ren-Engine/rpy/screens/sprites.rpy|ca46985c9920de6f399bf0b11253c57770bf8f526d1b4e7846e3cccc968f6433|7274
 Ren-Engine/rpy/screens/styles.rpy|0f6c392378fa59952839d0d7201346237ba8850157190fd177fa926d9ab6573f|4765
 Ren-Engine/rpy/signals/||0
 Ren-Engine/rpy/signals/interruptable_cycles.rpy|fc45b5124f6491e696da5e26792f9056a5b75a6c155c691b265032c37d55421f|2649
