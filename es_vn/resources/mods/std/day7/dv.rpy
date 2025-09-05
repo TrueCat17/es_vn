@@ -1,5 +1,4 @@
 label day7_dv:
-	$ persistent.sprite_time = "day"
 	
 	$ day_time()
 	
@@ -7,7 +6,7 @@ label day7_dv:
 	
 	scene black
 	
-	$ renpy.pause(2)
+	pause 2
 	
 	window show
 	"Какие-то люди преследовали меня…"
@@ -18,9 +17,7 @@ label day7_dv:
 	"..."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg int_house_of_dv_day
-	with dissolve
+	scene bg int_house_of_dv_day with dissolve
 	
 	play ambience ambience_int_cabin_day fadein 3
 	
@@ -104,9 +101,7 @@ label day7_dv:
 	"Алиса не ответила, но тоже начала одеваться."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_square_day
-	with dissolve
+	scene bg ext_square_day with dissolve
 	
 	show dv normal pioneer at center with dissolve
 	window show
@@ -114,16 +109,13 @@ label day7_dv:
 	me "Давай сходим к вожатой!"
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg int_house_of_mt_day
-	with dissolve
+	scene bg int_house_of_mt_day with dissolve
 	
 	window show
 	"Открыв своим ключом домик Ольги Дмитриевны, внутри я никого не обнаружил."
 	window hide
 	
-	scene bg black
-	with dissolve
+	scene bg black with dissolve
 	
 	window show
 	"..."
@@ -131,9 +123,7 @@ label day7_dv:
 	"..."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_square_day
-	with dissolve
+	scene bg ext_square_day with dissolve
 	
 	show dv normal pioneer at center with dissolve
 	window show
@@ -179,9 +169,7 @@ label day7_dv:
 	"Я побежал в сторону домика Ольги Дмитриевны."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg int_house_of_mt_day
-	with dissolve
+	scene bg int_house_of_mt_day with dissolve
 	
 	window show
 	"Да, собирать мне было особо нечего."
@@ -193,9 +181,7 @@ label day7_dv:
 	
 	stop music fadeout 3
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_square_day
-	with dissolve
+	scene bg ext_square_day with dissolve
 	
 	play ambience ambience_camp_center_day fadein 3
 	
@@ -245,9 +231,7 @@ label day7_dv:
 	"Итак, наш путь начался."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_road_day
-	with dissolve
+	scene bg ext_road_day with dissolve
 	
 	play ambience ambience_day_countryside_ambience fadein 2
 	
@@ -259,7 +243,7 @@ label day7_dv:
 	
 	play sound sfx_drop_alisa_bag
 	
-	$ pause(1)
+	pause 1
 	
 	window show
 	"Я остановился у обочины дороги и бросил скарб Алисы на землю."
@@ -355,9 +339,7 @@ label day7_dv:
 	"..."
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_road_night2
-	with dissolve2
+	scene bg ext_road_night2 with dissolve2
 	
 	$ night_time()
 	
@@ -388,8 +370,7 @@ label day7_dv:
 	"Внутри была в основном обувь и одежда, однако на дне я нашёл какой-то журнал и коробку спичек – вполне достаточно, чтобы развести костёр."
 	window hide
 	
-	scene cg d7_dv
-	with dissolve
+	scene cg d7_dv with dissolve
 	
 	stop ambience fadeout 2
 	
@@ -424,10 +405,10 @@ label day7_dv:
 	me "Да сдалась мне эта Лена!"
 	
 	if lp_dv >= 9:
-		$ epilogue_dv_good = 1
+		$ epilogue_dv_good = True
 		jump day7_dv_good
 	else:
-		$ epilogue_dv_bad = 1
+		$ epilogue_dv_bad = True
 		jump day7_dv_bad
 
 
@@ -517,15 +498,13 @@ label day7_dv_bad:
 	
 	play sound sfx_bus_honk
 	
-	$ pause(1)
+	pause 1
 	
 	window show
 	"Я собирался ещё что-то сказать, но вдруг со стороны дороги раздался гудок."
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_road_night2
-	with dissolve
+	scene bg ext_road_night2 with dissolve
 	
 	play sound_loop sfx_bus_idle
 	
@@ -547,9 +526,7 @@ label day7_dv_bad:
 	
 	stop sound_loop fadeout 2
 	
-	$ persistent.sprite_time = "night"
-	scene bg int_liaz
-	with dissolve
+	scene bg int_liaz with dissolve
 	
 	play music music_list["drown"] fadein 3
 	
@@ -612,14 +589,13 @@ label day7_dv_bad:
 	"Автобус нёсся в неизвестность, а я не выдержал и заснул."
 	window hide
 	
-	scene bg black
-	with fade3
+	scene bg black with fade3
 	
 	stop ambience fadeout 2
 	
 	stop sound_loop fadeout 2
 	
-	$ renpy.pause(3)
+	pause 3
 	
 	jump epilogue_dv
 
@@ -661,9 +637,7 @@ label day7_dv_good:
 	dv "Ладно, это пустой разговор…"
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_road_night2
-	with dissolve
+	scene bg ext_road_night2 with dissolve
 	
 	window show
 	"Она встала и пошла по направлению к дороге."
@@ -672,14 +646,13 @@ label day7_dv_good:
 	"Я настолько вышел из себя, что вскочил, в пару прыжков догнал её, схватил за руку и дёрнул на себя."
 	window hide
 	
-	scene cg d7_dv_2
-	with dissolve
+	scene cg d7_dv_2 with dissolve
 	
 	play sound sfx_fall_grass
 	
 	play music music_list["confession_oboe"] fadein 3
 	
-	$ pause(1)
+	pause 1
 	
 	window show
 	"Но рассчитать силу не получилось, поэтому мы повалились на землю так, что Алиса оказалась снизу, а я – сверху."
@@ -700,9 +673,7 @@ label day7_dv_good:
 	"Наконец она оттолкнула меня и встала."
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_road_night2
-	with dissolve
+	scene bg ext_road_night2 with dissolve
 	
 	show dv guilty pioneer at center with dissolve
 	window show
@@ -777,7 +748,7 @@ label day7_dv_good:
 	
 	play sound sfx_bus_honk
 	
-	$ pause(1)
+	pause 1
 	
 	window show
 	"Наверное, этот поцелуй мог бы продолжаться вечность, но вдруг где-то рядом, а казалось, глубоко в мозгу, прозвучал гудок."
@@ -795,9 +766,7 @@ label day7_dv_good:
 	"Мы вскочили, я схватил вещмешок, взял Алису за руку и побежал в сторону автобуса."
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg int_liaz
-	with dissolve
+	scene bg int_liaz with dissolve
 	
 	play music music_list["a_promise_from_distant_days"] fadein 3
 	
@@ -828,12 +797,11 @@ label day7_dv_good:
 	"Мне было хорошо, но накопившаяся усталость не дала по-настоящему насладиться моментом – я заснул..."
 	window hide
 	
-	scene bg black
-	with fade3
+	scene bg black with fade3
 	
 	stop music fadeout 3
 	
-	$ renpy.pause(3)
+	pause 3
 	
 	jump epilogue_dv
 
@@ -845,7 +813,7 @@ label epilogue_dv:
 	
 	scene black
 	
-	$ renpy.pause(2)
+	pause 2
 	
 	window show
 	"Похоже, староват я стал…"
@@ -858,7 +826,6 @@ label epilogue_dv:
 	"Чёрт возьми, ведь вчера к вечеру вроде отпустило!"
 	window hide
 	
-	$ persistent.sprite_time = "night"
 	scene bg semen_room
 	show prologue_dream
 	with fade
@@ -871,9 +838,7 @@ label epilogue_dv:
 	"И тут пришло осознание…"
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg semen_room
-	with fade2
+	scene bg semen_room with fade2
 	
 	window show
 	"Я вновь в своей старой квартире!"
@@ -948,12 +913,11 @@ label epilogue_dv:
 	"…"
 	window hide
 	
-	scene anim prolog_1
-	with fade3
+	scene anim prolog_1 with fade3
 	
 	play music music_list["everlasting_summer"] fadein 3
 	
-	$ renpy.pause(3)
+	pause 3
 	
 	$ set_mode_nvl()
 	
@@ -1011,9 +975,7 @@ label epilogue_dv:
 	
 	$ set_mode_adv()
 	
-	$ persistent.sprite_time = "night"
-	scene bg semen_room
-	with fade
+	scene bg semen_room with fade
 	
 	window show
 	"Я сидел перед монитором, мучая гитару."
@@ -1033,7 +995,6 @@ label epilogue_dv:
 	"Я ещё раз повторил все свои партии, убрал гитару в чехол, собрал все примочки и направился к выходу."
 	window hide
 	
-	$ persistent.sprite_time = "day"
 	$ show_snow(0.5)
 	scene bg bus_stop with dissolve
 	
@@ -1045,7 +1006,6 @@ label epilogue_dv:
 	"Вскоре автобус подъехал, лениво распахнул двери и поглотил в себя немногочисленных пассажиров."
 	window hide
 	
-	$ persistent.sprite_time = "night"
 	$ hide_snow(0.5)
 	scene bg intro_xx with dissolve
 	
@@ -1061,10 +1021,9 @@ label epilogue_dv:
 	
 	stop music fadeout 4
 	
-	$ renpy.pause(2)
+	pause 2
 	
-	scene anim prolog_1
-	with dissolve
+	scene anim prolog_1 with dissolve
 	
 	window show
 	"Клуб, не в пример больше того, где мы давали первый концерт, был ещё пуст.{w} Идёт саундчек."
@@ -1083,8 +1042,7 @@ label epilogue_dv:
 	"…"
 	window hide
 	
-	scene cg epilogue_dv_2
-	with dissolve
+	scene cg epilogue_dv_2 with dissolve
 	
 	play music music_list["heather"] fadein 3
 	
@@ -1101,7 +1059,7 @@ label epilogue_dv:
 	"К тому моменту всё волнение куда-то исчезло, и я сыграл его идеально, даже лучше, чем на репетициях."
 	
 	play sound sfx_concert_applause
-	$ renpy.pause(2)
+	pause 2
 	
 	
 	"Наконец наше выступление было закончено, и зал взорвался аплодисментами."
@@ -1112,8 +1070,7 @@ label epilogue_dv:
 	
 	stop music fadeout 6
 	
-	scene anim prolog_1
-	with dissolve2
+	scene anim prolog_1 with dissolve2
 	
 	window show
 	"В гримёрке царила полнейшая эйфория, мы поздравляли друг друга, обнимались, слышались звуки стреляющих пробок."
@@ -1133,7 +1090,7 @@ label epilogue_dv:
 	
 	
 	
-	if epilogue_dv_bad == 1 or replay == "dv_bad":
+	if epilogue_dv_bad or replay == "dv_bad":
 	
 		play music music_list["everlasting_summer"] fadein 3
 		
@@ -1144,9 +1101,7 @@ label epilogue_dv:
 		"Попрощавшись с товарищами, я побежал на остановку и чудесным образом успел на 410-ый автобус."
 		window hide
 		
-		$ persistent.sprite_time = "night"
-		scene bg intro_xx
-		with dissolve2
+		scene bg intro_xx with dissolve2
 		
 		window show
 		"В салоне никого не было, я, как и тогда, сидел на кресле за водителем, а в радиоприёмнике играла какая-то знакомая мелодия."
@@ -1156,12 +1111,11 @@ label epilogue_dv:
 		"Но возвращаюсь я уже другим человеком.{w} Человеком, в котором что-то изменилось…"
 		window hide
 		
-		scene black
-		with fade3
+		scene black with fade3
 		
 		stop music fadeout 5
 		
-		$ renpy.pause(5)
+		pause 5
 		
 		$ show_achievement("dv_bad")
 		
@@ -1171,10 +1125,9 @@ label epilogue_dv:
 	
 	
 	
-	if epilogue_dv_good == 1 or replay == "dv_good":
+	if epilogue_dv_good or replay == "dv_good":
 	
-		scene cg epilogue_dv_3
-		with dissolve
+		scene cg epilogue_dv_3 with dissolve
 		
 		play music music_list["everlasting_summer"] fadein 3
 		
@@ -1226,8 +1179,7 @@ label epilogue_dv:
 		dv "Тогда ещё увидимся!"
 		window hide
 		
-		scene anim prolog_1
-		with dissolve2
+		scene anim prolog_1 with dissolve2
 		
 		window show
 		"Она помахала мне рукой и вышла из зала."
@@ -1238,12 +1190,11 @@ label epilogue_dv:
 		"Я улыбнулся, взвалил гитару на плечо и вместе с товарищами направился на остановку 410-го автобуса."
 		window hide
 		
-		scene black
-		with fade3
+		scene black with fade3
 		
 		stop music fadeout 5
 		
-		$ renpy.pause(5)
+		pause 5
 		
 		$ show_achievement("dv_good")
 		
@@ -1253,12 +1204,10 @@ label epilogue_dv:
 
 
 label dv_bad_ending:
-	$ persistent.sprite_time = "day"
 	
-	scene bg black
-	with dissolve2
+	scene bg black with dissolve2
 	
-	$ pause(1)
+	pause 1
 	
 	play music music_list["opening"] fadein 3
 	
@@ -1329,8 +1278,7 @@ label dv_bad_ending:
 	scene cg epilogue_dv_2_ending with flash2
 	$ renpy.pause(8, hard=True)
 	
-	scene black
-	with dissolve2
+	scene black with dissolve2
 	
 	stop music fadeout 3
 	
@@ -1338,12 +1286,10 @@ label dv_bad_ending:
 
 
 label dv_good_ending:
-	$ persistent.sprite_time = "day"
 	
-	scene bg black
-	with dissolve2
+	scene bg black with dissolve2
 	
-	$ pause(1)
+	pause 1
 	
 	play music music_list["opening"] fadein 3
 	
@@ -1414,9 +1360,10 @@ label dv_good_ending:
 	scene cg epilogue_dv_3_ending with flash2
 	$ renpy.pause(8, hard=True)
 	
-	scene black
-	with dissolve2
+	scene black with dissolve2
 	
 	stop music fadeout 3
 	
 	$ renpy.pause(4, hard=True)
+
+

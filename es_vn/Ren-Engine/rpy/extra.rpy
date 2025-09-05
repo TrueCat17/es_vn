@@ -28,15 +28,24 @@ init -1000001 python:
 	
 	
 	def quick_load():
-		path = os.path.join(slots.directory, 'quick', '1', 'py_globals')
-		if os.path.exists(path):
-			slots.load('1', page='quick')
+		if os.path.exists(slots.directory + 'quick/1/py_globals'):
+			slots.load('1', page = 'quick')
 	def quick_save():
 		if get_current_mod() != 'main_menu':
-			slots.save('1', page='quick')
+			slots.save('1', page = 'quick')
 	
 	def show_screen(name, *args, **kwargs):
-		return _show_screen(name, args, kwargs)
+		depth = kwargs.pop('depth', 0)
+		filename, numline = get_file_and_line(depth + 1)
+		return _show_screen(name, filename, numline, args, kwargs)
+	def hide_screen(name, **kwargs):
+		depth = kwargs.get('depth', 0)
+		filename, numline = get_file_and_line(depth + 1)
+		return _hide_screen(name, filename, numline)
+	
+	def allow_arrows():
+		filename, numline = get_file_and_line(1)
+		return _allow_arrows(filename, numline)
 	
 	def make_screenshot(width = None, height = None):
 		global need_screenshot, screenshot_width, screenshot_height
@@ -86,7 +95,7 @@ init -1000001 python:
 		0, 20, 0.5, False -> 10
 		10, 20, 0.7, True -> 13
 		"""
-		t = float if type(start) is float or type(end) is float else int
+		t = float if type(start) is float or type(end) is float else absolute
 		return t(start + (end - start) * (1 - k if reverse else k))
 	
 	
@@ -130,7 +139,7 @@ init -1000001 python:
 	
 	def interpolate_tag(tag, kwargs, in_recursion = False):
 		if type(tag) is not str or len(tag) < 3 or tag[0] != '[' or tag[-1] != ']':
-			out_msg('interpolate_tag', 'invalid tag <' + str(tag) + '>')
+			out_msg('interpolate_tag', 'invalid tag <%s>', tag)
 			return tag
 		tag = tag[1:-1]
 		
@@ -142,13 +151,13 @@ init -1000001 python:
 		
 		for op in ops:
 			if op not in 'tiqulc':
-				out_msg('interpolate_tag', 'invalid tag operator <%s> in tag <%s>' % (op, tag))
+				out_msg('interpolate_tag', 'invalid tag operator <%s> in tag <%s>', op, tag)
 		
 		tag = str(eval(tag, kwargs, {}))
 		
 		if 't' in ops:
 			tag = _(tag)
-			
+		
 		if 'i' in ops and not in_recursion:
 			tag = interpolate_tags(tag, kwargs, in_recursion = True)
 		
@@ -209,9 +218,9 @@ init -1000000 python:
 			if not func():
 				func_that_stopped_scenario = func
 				return False
+		func_that_stopped_scenario = None
 		return True
 	
 	def skip_exec_current_command():
 		for func in can_exec_next_skip_funcs:
 			func()
-

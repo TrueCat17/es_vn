@@ -267,12 +267,13 @@ init python:
 			return 'Стандартная'
 		return spr_dress_text
 
+init:
+	image transparent_scene = ''
+	image gallery_sprite = gallery_sprite_image
+
 
 label gallery_sprite_show:
 	$ in_gallery_sprite_show = True
-	
-	image transparent_scene = ''
-	image gallery_sprite = gallery_sprite_image
 	
 	$ gallery_sprite_image_prev = ''
 	while has_screen('gallery') and gallery_type == 'СПРАЙТЫ':

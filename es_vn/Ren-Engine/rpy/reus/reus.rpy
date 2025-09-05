@@ -93,7 +93,7 @@ init python:
 			sep = '://'
 			index = link.find(sep)
 			if index != -1:
-				link = link[sep + len(sep):]
+				link = link[index + len(sep):]
 			
 			info.link = make_sure_dir(link)
 		
@@ -106,8 +106,14 @@ init python:
 		
 		root = get_root_dir()
 		root_len = len(root)
+		
+		var_dir = 'var/'
+		reus_var_dir = reus.var_dir
+		
 		for path, ds, fs in os.walk(root):
 			path = make_sure_dir(path[root_len:])
+			if path.startswith(var_dir) and not path.startswith(reus_var_dir):
+				continue
 			
 			for f in fs:
 				f = path + f
@@ -442,7 +448,7 @@ init python:
 					ok = False
 					break
 			if not ok:
-				out_msg('reus.safe_fs_op (%s)' % (op, ), 'Path <%s> is not safe' % (path, ))
+				out_msg('reus.safe_fs_op (%s)' % (op, ), 'Path <%s> is not safe', path)
 				return
 			
 			if op in ('mv', 'cp'):
@@ -462,7 +468,7 @@ init python:
 					os.rmdir(path)
 			
 			else:
-				out_msg('reus.safe_fs_op', 'Unknown operation %s' % (op, ))
+				out_msg('reus.safe_fs_op', 'Unknown operation %s', op)
 		
 		# simple and incorrect way: 1 -> 2 with deleting 2 if exists
 		#   problem case: 1, 2 -> 2, 1
@@ -483,8 +489,6 @@ init python:
 		to_remove = defaultdict(list)
 		to_copy = defaultdict(list)
 		
-		
-		info = dont_save_reus.cur_info
 		info_root = root + info.root
 		for path, data in info.data.items():
 			full_path = info_root + path
@@ -522,7 +526,7 @@ init python:
 				if f.startswith('_remove_'): continue
 				
 				f = path + f
-				mtime, size, hash = reus_files[f]
+				_mtime, size, hash = reus_files[f]
 				to_remove[(size, hash)].append(root + f)
 		
 		to_move = []
@@ -619,5 +623,5 @@ init python:
 	
 	dont_save_reus = DontSave()
 	
-	if get_current_mod() == 'main_menu':
+	if get_current_mod_index() == 0:
 		reus.clear_prev() # on each restart

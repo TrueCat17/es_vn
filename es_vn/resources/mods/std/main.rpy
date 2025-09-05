@@ -8,3 +8,5 @@ label start:
 		return
 	
 	call prologue
+
+

@@ -64,6 +64,7 @@ init python:
 		global available_zones
 		available_zones = im.composite(*args)
 		
+		renpy.scene()
 		show_screen('map')
 	
 	

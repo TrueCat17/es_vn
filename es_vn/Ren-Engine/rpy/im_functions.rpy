@@ -21,11 +21,14 @@ init -1001 python:
 		out_msg('ConditionSwitch', 'All conditions are failed')
 		return args[1]
 	
-	def get_back_with_color(image, color = '#000', alpha = 0.05):
+	def get_back_with_color(image, color = '#000', alpha = 0.01):
 		w, h = get_image_size(image)
-		return im.composite((w, h),
-		                    (0, 0), im.alpha(im.rect(color, w, h), alpha),
-		                    (0, 0), image)
+		r, g, b, a = renpy.easy.color(color)
+		return im.composite(
+			(w, h),
+			(0, 0), im.rect((r, g, b, 255 * alpha), w, h),
+			(0, 0), image,
+		)
 	
 	
 	class ImMatrix(list):
@@ -34,10 +37,11 @@ init -1001 python:
 			
 			if size == 1:
 				args = args[0]
-			else:
-				if size != 0 and size != 20 and size != 25:
-					out_msg('ImMatrix', 'Expected 20 or 25 values, got ' + str(len(args)))
-				args = list(args) + [0] * (25 - size)
+				size = len(args)
+			
+			if size != 0 and size != 20 and size != 25:
+				out_msg('ImMatrix', 'Expected 20 or 25 values, got %s', len(args))
+			args = list(args) + [0] * (25 - size)
 			
 			return list.__new__(cls, args)
 		
@@ -46,10 +50,11 @@ init -1001 python:
 			
 			if size == 1:
 				args = args[0]
-			else:
-				if size != 0 and size != 20 and size != 25:
-					out_msg('ImMatrix', 'Expected 20 or 25 values, got ' + str(len(args)))
-				args = list(args) + [0] * (25 - size)
+				size = len(args)
+			
+			if size != 0 and size != 20 and size != 25:
+				out_msg('ImMatrix', 'Expected 20 or 25 values, got %s', len(args))
+			args = list(args) + [0] * (25 - size)
 			
 			list.__init__(self, args)
 		
@@ -122,17 +127,17 @@ init -1001 python:
 			return res
 		
 		@staticmethod
-		def saturation(level, desat=(0.2126, 0.7152, 0.0722)):
+		def saturation(level, desat = (0.2126, 0.7152, 0.0722)):
 			r, g, b = desat
 			def I(a, b):
 				return a + (b - a) * level
 			
 			res = ImMatrix(
-				I(r, 1), 	I(g, 0), 	I(b, 0), 	0, 	0,
-				I(r, 0), 	I(g, 1), 	I(b, 0), 	0, 	0,
-				I(r, 0), 	I(g, 0), 	I(b, 1), 	0, 	0,
-				0, 			0, 			0, 			1, 	0,
-				0, 			0, 			0, 			0, 	1
+				I(r, 1),    I(g, 0),    I(b, 0),    0, 0,
+				I(r, 0),    I(g, 1),    I(b, 0),    0, 0,
+				I(r, 0),    I(g, 0),    I(b, 1),    0, 0,
+				0,          0,          0,          1, 0,
+				0,          0,          0,          0, 1,
 			)
 			return res
 		
@@ -195,37 +200,33 @@ init -1001 python:
 			return res
 	
 	
-	
-	im__matrix = ImMatrix
-	
-	
 	def im__scale(image, w, h):
 		if w < 1 or h < 1:
-			out_msg('im.scale', 'Sizes are invalid: (%s, %s)' % (w, h))
+			out_msg('im.scale', 'Sizes are invalid: (%s, %s)', w, h)
 			return image
-		return 'Scale|(%s)|%s|%s' % (image, int(w), int(h))
+		return 'Scale|(%s)|%i|%i' % (image, w, h)
 	
 	def im__factor_scale(image, w, h = None):
 		if h is None:
 			h = w
 		if w <= 0 or h <= 0:
-			out_msg('im.factor_scale', 'Sizes are invalid: (%s, %s)' % (w, h))
+			out_msg('im.factor_scale', 'Sizes are invalid: (%s, %s)', w, h)
 			return image
-		return 'FactorScale|(%s)|%s|%s' % (image, w, h)
+		return 'FactorScale|(%s)|%f|%f' % (image, w, h)
 	
 	def im__renderer_scale(image, w, h):
 		if w < 1 or h < 1:
-			out_msg('im.renderer_scale', 'Sizes are invalid: (%s, %s)' % (w, h))
+			out_msg('im.renderer_scale', 'Sizes are invalid: (%s, %s)', w, h)
 			return image
-		return 'RendererScale|(%s)|%s|%s' % (image, int(w), int(h))
+		return 'RendererScale|(%s)|%i|%i' % (image, w, h)
 	
 	def im__crop(image, x, y = None, w = None, h = None):
 		if type(x) in (tuple, list):
 			x, y, w, h = x
 		if w < 1 or h < 1:
-			out_msg('im.crop', 'Sizes are invalid: (%s, %s)' % (w, h))
+			out_msg('im.crop', 'Sizes are invalid: (%s, %s)', w, h)
 			return image
-		return 'Crop|(%s)|(%s %s %s %s)' % (image, int(x), int(y), int(w), int(h))
+		return 'Crop|(%s)|(%i %i %i %i)' % (image, x, y, w, h)
 	
 	
 	def im__composite(*args):
@@ -235,16 +236,16 @@ init -1001 python:
 		
 		size = args[0]
 		if type(size) not in (tuple, list) or len(size) != 2 or size[0] < 1 or size[1] < 1:
-			out_msg('im.composite', 'Sizes are invalid: <%s>' % (size, ))
+			out_msg('im.composite', 'Sizes are invalid: <%s>', size)
 			return im.rect('#888', 100, 100)
 		
-		res = 'Composite|(%s %s)' % (int(size[0]), int(size[1]))
+		res = 'Composite|(%i %i)' % tuple(size)
 		
 		for i in range(1, len(args) - 1, 2):
 			x, y = args[i]
 			img = args[i + 1]
 			
-			res += '|(%s %s)|(%s)' % (int(x), int(y), img)
+			res += '|(%i %i)|(%s)' % (x, y, img)
 		return res
 	
 	
@@ -255,71 +256,71 @@ init -1001 python:
 	def im__matrix_color(image, matrix):
 		return 'MatrixColor|(%s)|(%s)' % (image, matrix)
 	
-	def im__grayscale(image, desat=(0.2126, 0.7152, 0.0722)):
+	def im__grayscale(image, desat = (0.2126, 0.7152, 0.0722)):
 		return im.matrix_color(image, im.matrix.saturation(0.0, desat))
 	
-	def im__sepia(image, tint=(1.0, 0.94, 0.76), desat=(0.2126, 0.7152, 0.0722)):
+	def im__sepia(image, tint = (1.0, 0.94, 0.76), desat = (0.2126, 0.7152, 0.0722)):
 		return im.matrix_color(image, im.matrix.saturation(0.0, desat) * im.matrix.tint(tint[0], tint[1], tint[2]))
 	
 	
 	def im__recolor(image, r, g, b, a = 255):
-		return 'ReColor|(%s)|(%s %s %s %s)' % (image, r + 1, g + 1, b + 1, a + 1)
+		return 'ReColor|(%s)|(%i %i %i %i)' % (image, r + 1, g + 1, b + 1, a + 1)
 	
 	def im__color(image, color):
 		r, g, b, a = renpy.easy.color(color)
 		return im.recolor(image, r, g, b, a)
 	
 	def im__alpha(image, alpha):
-		return im.recolor(image, 255, 255, 255, int(alpha * 255))
+		return im.recolor(image, 255, 255, 255, alpha * 255)
 	
 	
 	def im__rotozoom(image, angle, zoom = 1.0):
 		if zoom == 0:
 			out_msg('im.rotozoom', 'Zoom must not be 0')
 			zoom = 1
-		return 'Rotozoom|(%s)|%s|%s' % (image, int(angle) % 360, zoom)
+		return 'Rotozoom|(%s)|%s|%f' % (image, int(angle) % 360, zoom)
 	
 	
 	def im__mask(image, mask, value, channel = 'r', cmp_func_name = '<=', alpha_channel = 'a', alpha_image = 1):
-		if channel not in 'rgba':
-			out_msg('im.mask', '<channel> must be r, g, b or a, got %s' % (channel, ))
+		if channel not in ('r', 'g', 'b', 'a'):
+			out_msg('im.mask', '<channel> must be r, g, b or a, got <%s>', channel)
 			channel = 'r'
 		cmp_func_name_variants = ('l', 'g', 'e', 'ne', 'le', 'ge', '<', '>', '==', '!=', '<=', '>=')
 		if cmp_func_name not in cmp_func_name_variants:
-			out_msg('im.mask', '<cmp_func_name> must be in %s, got %s' % (cmp_func_name_variants, cmp_func_name))
+			out_msg('im.mask', '<cmp_func_name> must be in %s, got <%s>', cmp_func_name_variants, cmp_func_name)
 			cmp_func_name = '<='
-		if alpha_channel not in 'rgba':
-			out_msg('im.mask', '<alpha_channel> must be r, g, b or a, got %s' % (alpha_channel, ))
+		if alpha_channel not in ('r', 'g', 'b', 'a'):
+			out_msg('im.mask', '<alpha_channel> must be r, g, b or a, got <%s>', alpha_channel)
 			alpha_channel = 'r'
 		if alpha_image not in (1, 2, '1', '2'):
-			out_msg('im.mask', '<alpha_image> must be 1 or 2, got %s' % (alpha_image, ))
+			out_msg('im.mask', '<alpha_image> must be 1 or 2, got <%s>', alpha_image)
 			alpha_image = '1'
-		return 'Mask|(%s)|(%s)|(%s)|%s|%s|%s|%s' % (image, mask, channel, int(value), cmp_func_name, alpha_channel, alpha_image)
+		return 'Mask|(%s)|(%s)|(%s)|%i|%s|%s|%s' % (image, mask, channel, value, cmp_func_name, alpha_channel, alpha_image)
 	def im__alpha_mask(image, mask):
-		return im.mask(image, mask, 0, 'r', 'g', 'r', 2)
+		return im.mask(image, mask, 0, 'r', '>', 'r', 2)
 	
 	
 	def im__blur_h(image, dist = 5):
 		if dist < 0:
-			out_msg('im.blur_h', 'Blur distance must be >= 0, got: %s' % dist)
+			out_msg('im.blur_h', 'Blur distance must be >= 0, got: %s', dist)
 			return image
-		return 'BlurH|(%s)|%s' % (image, int(dist))
+		return 'BlurH|(%s)|%i' % (image, dist)
 	def im__blur_v(image, dist = 5):
 		if dist < 0:
-			out_msg('im.blur_v', 'Blur distance must be >= 0, got: %s' % dist)
+			out_msg('im.blur_v', 'Blur distance must be >= 0, got: %s', dist)
 			return image
-		return 'BlurV|(%s)|%s' % (image, int(dist))
+		return 'BlurV|(%s)|%i' % (image, dist)
 	def im__blur(image, dist_h = 5, dist_v = 5):
 		if dist_h < 0 or dist_v < 0:
-			out_msg('im.blur', 'Blur distances must be >= 0, got: %s' % (dist_h, dist_v))
+			out_msg('im.blur', 'Blur distances must be >= 0, got: %s', (dist_h, dist_v))
 			return image
 		return im.blur_h(im.blur_v(image, dist_v), dist_h)
 	
 	def im__motion_blur(image, cx = 0.5, cy = 0.5, dist = 5):
 		if dist < 1 or dist > 255:
-			out_msg('im.motion_blur', 'Blur distance must be from 1 to 255, got: %s' % dist)
+			out_msg('im.motion_blur', 'Blur distance must be from 1 to 255, got: %s', dist)
 			return image
-		return 'MotionBlur|(%s)|%s|%s|%s' % (image, cx, cy, int(dist))
+		return 'MotionBlur|(%s)|%s|%s|%i' % (image, cx, cy, dist)
 	
 	
 	def im__rect(color, width = 1, height = 1):
@@ -328,7 +329,7 @@ init -1001 python:
 		if (r, g, b, a) != (0, 0, 0, 255):
 			m = im.matrix.invert() * im.matrix.tint(r / 255.0, g / 255.0, b / 255.0, a / 255.0)
 			res = im.matrix_color(res, m)
-		if get_image_size(res) != (width, height):
+		if width != 1 or height != 1:
 			res = im.scale(res, width, height)
 		return res
 	def im__circle(color, width = 64, height = None):
@@ -421,8 +422,8 @@ init -1001 python:
 			return hover
 		
 		return im.composite((tw, th),
-			                (0, 0), ground,
-			                (x, y), im.crop(hover, (x, y, w, h)))
+		                    (0, 0), ground,
+		                    (x, y), im.crop(hover, x, y, w, h))
 	
 	def im__scale_without_borders(image, width, height, left = None, top = None, right = None, bottom = None, need_scale = False):
 		if type(left) in (tuple, list):
@@ -454,7 +455,7 @@ init -1001 python:
 		sizes = left, right, top, bottom
 		if max(sizes) <= 0 or (w, h) == (1, 1):
 			if min(sizes) < 0:
-				out_msg('im.scale_without_borders', 'Invalid sizes %s' % (sizes, ))
+				out_msg('im.scale_without_borders', 'Invalid sizes %s', sizes)
 			res = im.scale(image, width, height)
 			cache[key] = res
 			return res
@@ -500,6 +501,8 @@ init -1001 python:
 	
 	build_object('im')
 	
+	im.matrix = ImMatrix
+	
 	im.Scale = im.scale
 	im.FactorScale = im.factor_scale
 	im.RendererScale = im.renderer_scale
@@ -533,4 +536,3 @@ init -1001 python:
 	im.Bar = im.bar
 	
 	im.Save = im.save
-

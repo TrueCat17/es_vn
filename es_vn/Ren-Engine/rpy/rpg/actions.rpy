@@ -73,7 +73,7 @@ init -1000 python:
 				show_character(character, {'x': x, 'y': y}, location_name)
 				return 'end'
 		
-		out_msg('rpg_action_spawn', 'Spawn point for <%s> not found' % character)
+		out_msg('rpg_action_spawn', 'Spawn point for <%s> not found', character)
 		return 'end'
 	
 	
@@ -122,7 +122,7 @@ init -1000 python:
 		
 		if state == 'start':
 			location_names = location_names or character.location.name
-			if not isinstance(location_names, (tuple, list)):
+			if type(location_names) not in (tuple, list):
 				location_names = [location_names]
 			
 			st = time.time()
@@ -131,7 +131,7 @@ init -1000 python:
 				if not res: continue
 				
 				location_name, x, y = res
-				path_found = character.move_to_place([location_name, {'x': x, 'y': y}], run=run)
+				path_found = character.move_to_place([location_name, {'x': x, 'y': y}], run = run)
 				if path_found:
 					return 'moving'
 				
@@ -225,13 +225,13 @@ init -1000 python:
 		home_is_fake_location = type(home) is not str
 		
 		if home_is_fake_location and state in ('start', 'end'):
-			if not isinstance(home, (tuple, list)) or len(home) != 2:
-				out_msg('rpg_action_home', 'data <home> is not [location, place]')
+			if type(home) not in (tuple, list) or len(home) != 2:
+				out_msg('rpg_action_home', 'Data <home> of character <%s> is not [location, place] (got %s)', character, home)
 				return 'end'
 			
 			location_name, place = home
 			if location_name not in rpg_locations:
-				out_msg('rpg_action_home', 'Location <%s> was not registered' % (location_name, ))
+				out_msg('rpg_action_home', 'Location <%s> was not registered', location_name)
 				return 'end'
 			
 			location = rpg_locations[location_name]
@@ -239,7 +239,7 @@ init -1000 python:
 				place_name = place
 				place = location.get_place(place_name)
 				if place is None:
-					out_msg('rpg_action_home', 'Place <%s> in location <%s> not found' % (place_name, location_name))
+					out_msg('rpg_action_home', 'Place <%s> in location <%s> not found', place_name, location_name)
 					return 'end'
 		
 		
@@ -305,13 +305,12 @@ init -1000 python:
 			if friend_actions.cur_action is not rpg_action_to_friend: return 'end'
 			if friend_actions.friend is not character: return 'end'
 		
-		no_start_friend = friend is None
-		
 		if state == 'start':
 			if friend and not friend.location:
 				return 'end'
 			
-			if not friend:
+			no_start_friend = friend is None
+			if no_start_friend:
 				friends = []
 				for friend in actions.friends or []:
 					if not friend.get_auto(): continue
@@ -467,6 +466,7 @@ init -1000 python:
 			if path_found:
 				fix_speed(True)
 				return 'moving'
+			
 			character.move_to_place(None)
 			return 'start'
 		
@@ -571,9 +571,9 @@ init -1000 python:
 					if new_state == IGNORE_STATE:
 						return
 					if type(new_state) is not str:
+						msg = 'Action <%s> of character <%s> returned non-str new state <%s> (old state = <%s>)'
 						params = (old_action, self.character, new_state, old_state)
-						msg = 'Action <%s> of character <%s> returned non-str new state <%s> (old state = <%s>)' % params
-						out_msg('RpgActions.update', msg)
+						out_msg('RpgActions.update', msg, *params)
 						new_state = 'end'
 					self.state = new_state
 				
@@ -690,7 +690,7 @@ init -1000 python:
 		
 		def get_random_param(self, name):
 			min_value, max_value = self.random_param_bounds[name]
-			return min_value + random.random() * (max_value - min_value)
+			return random.uniform(min_value, max_value)
 	
 	
 	def get_std_rpg_actions():
@@ -725,4 +725,3 @@ init -1000 python:
 		res.set_random_param('to_friend', 2, 5)
 		
 		return res
-	

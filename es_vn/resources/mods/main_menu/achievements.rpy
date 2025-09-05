@@ -94,9 +94,6 @@ screen achievements:
 		yalign 0.82
 		action 'ach_first_page = not ach_first_page'
 	
-	key 'LEFT'  action 'ach_first_page = True'
-	key 'RIGHT' action 'ach_first_page = False'
-	
 	
 	textbutton '← Назад':
 		style 'back_btn'

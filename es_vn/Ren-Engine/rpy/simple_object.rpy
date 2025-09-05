@@ -2,7 +2,7 @@ init -1000000 python:
 	class SimpleObject:
 		def __init__(self, obj = None):
 			if obj:
-				self.__dict__.update(obj.__dict__)
+				self.__dict__ = obj.__dict__.copy()
 		
 		def __str__(self):
 			return '<instance of %s>' % (self.__class__.__name__, )
@@ -19,7 +19,7 @@ init -1000000 python:
 			return self.__dict__.get(prop, default_value)
 		
 		def setdefault(self, prop, default_value):
-			return object_getattribute(self, '__dict__').setdefault(prop, default_value)
+			return self.__dict__.setdefault(prop, default_value)
 		
 		def __dir__(self):
 			return self.__dict__.__dir__()

@@ -112,13 +112,11 @@ screen gallery_music:
 		button:
 			style 'gallery_prev_btn'
 			action 'music_page -= 1'
-		key 'LEFT' action 'music_page -= 1'
 	
 	if music_page != music_page_max - 1:
 		button:
 			style 'gallery_next_btn'
 			action 'music_page += 1'
-		key 'RIGHT' action 'music_page += 1'
 	
 	text (str(music_page + 1) + '/' + str(music_page_max)):
 		style 'gallery_page'

@@ -2,7 +2,6 @@ init:
 	$ day6_map = 0
 
 label day6_un:
-	$ persistent.sprite_time = "day"
 	
 	$ day_time()
 	
@@ -10,7 +9,7 @@ label day6_un:
 	
 	scene black
 	
-	$ renpy.pause(2)
+	pause 2
 	
 	window show
 	"Я проснулся оттого, что кто-то тряс меня за плечи."
@@ -21,9 +20,7 @@ label day6_un:
 	mt "Семён! Вставай немедленно!"
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg int_house_of_mt_day
-	with fade
+	scene bg int_house_of_mt_day with fade
 	
 	play music music_list["sweet_darkness"] fadein 3
 	
@@ -38,9 +35,7 @@ label day6_un:
 	"Голова совершенно не соображала, так что я просто не нашёлся, что возразить."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_square_day
-	with dissolve
+	scene bg ext_square_day with dissolve
 	
 	show mt normal pioneer far at center with dissolve
 	window show
@@ -58,9 +53,7 @@ label day6_un:
 	"Линейка закончилась, и пионеры поплелись на завтрак."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_dining_hall_near_day
-	with dissolve
+	scene bg ext_dining_hall_near_day with dissolve
 	
 	show mi smile pioneer at center with dissolve
 	window show
@@ -85,9 +78,7 @@ label day6_un:
 	
 	stop ambience fadeout 3
 	
-	$ persistent.sprite_time = "day"
-	scene bg int_dining_hall_people_day
-	with dissolve
+	scene bg int_dining_hall_people_day with dissolve
 	
 	window show
 	"К моей радости, дальнее место в углу было свободно."
@@ -135,9 +126,7 @@ label day6_un:
 	
 	stop music fadeout 3
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_dining_hall_away_day
-	with dissolve
+	scene bg ext_dining_hall_away_day with dissolve
 	
 	play ambience ambience_camp_center_day fadein 3
 	
@@ -156,9 +145,7 @@ label day6_un:
 	"Да, были странные вещи, но ведь и в реальном мире их полно."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_camp_entrance_day
-	with dissolve
+	scene bg ext_camp_entrance_day with dissolve
 	
 	window show
 	"В общем, очередной цикл размышлений, который приводит меня опять к остановке автобуса номер 410 и воротам в лагерь «Совёнок»."
@@ -166,9 +153,7 @@ label day6_un:
 	"Я брёл куда глаза глядят."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_houses_day
-	with dissolve
+	scene bg ext_houses_day with dissolve
 	
 	window show
 	"В «жилом квартале» было немноголюдно.{w} Точнее, там вообще не оказалось ни единой живой души."
@@ -183,9 +168,7 @@ label day6_un:
 	"Я не стал особо маскироваться и прятаться, а просто тихо пошёл за ним на некотором отдалении."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_library_day
-	with dissolve
+	scene bg ext_library_day with dissolve
 	
 	window show
 	"Вскоре мы вышли к библиотеке.{w} Электроник постучал и зашёл внутрь."
@@ -232,9 +215,7 @@ label day6_un:
 	jump day6_map
 
 label day6_aidpost:
-	$ persistent.sprite_time = "day"
-	scene bg ext_aidpost_day
-	with dissolve
+	scene bg ext_aidpost_day with dissolve
 	
 	window show
 	"Может быть, он побежал в медпункт?"
@@ -246,9 +227,7 @@ label day6_aidpost:
 	jump day6_map
 
 label day6_dinner:
-	$ persistent.sprite_time = "day"
-	scene bg int_dining_hall_day
-	with dissolve
+	scene bg int_dining_hall_day with dissolve
 	
 	window show
 	"В столовой укрыться было бы неплохим решением."
@@ -260,7 +239,7 @@ label day6_dinner:
 	jump day6_map
 
 label day6_clubs:
-	$ day6_map = day6_map + 1
+	$ day6_map += 1
 	jump day6_map
 
 label day6_map:
@@ -269,17 +248,13 @@ label day6_map:
 	$ show_map()
 
 label day6_after_map:
-	$ persistent.sprite_time = "day"
-	scene bg ext_clubs_day
-	with dissolve
+	scene bg ext_clubs_day with dissolve
 	
 	window show
 	th "Да, вполне очевидно, что он побежал именно в свой родной кружок кибернетики."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg int_clubs_male_day
-	with dissolve
+	scene bg int_clubs_male_day with dissolve
 	
 	window show
 	"Я вошёл без стука, но внутри никого не обнаружил."
@@ -319,9 +294,7 @@ label day6_after_map:
 	me "Ладно, мне пора, дела."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_clubs_day
-	with dissolve
+	scene bg ext_clubs_day with dissolve
 	
 	play ambience ambience_camp_center_day fadein 3
 	
@@ -331,9 +304,7 @@ label day6_after_map:
 	th "Они действительно подходят друг другу.{w} Непонятно тогда, чего Женя ему отказала…"
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_square_day
-	with dissolve
+	scene bg ext_square_day with dissolve
 	
 	window show
 	"Я шёл в сторону площади и размышлял над этим происшествием дальше."
@@ -351,9 +322,7 @@ label day6_after_map:
 	"Эти мысли окончательно загнали меня в состояние чёрной тоски, так что сигнал на обед, обычно такой желанный, не вызвал у меня совершенно никаких эмоций."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg int_dining_hall_people_day
-	with dissolve
+	scene bg int_dining_hall_people_day with dissolve
 	
 	stop sound fadeout 2
 	
@@ -414,9 +383,7 @@ label day6_after_map:
 	"Обед был закончен, я молча встал и, не прощаясь, вышел из столовой."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_dining_hall_near_day
-	with dissolve
+	scene bg ext_dining_hall_near_day with dissolve
 	
 	play music music_list["no_tresspassing"] fadein 3
 	
@@ -430,9 +397,7 @@ label day6_after_map:
 	th "В конце концов, не факт, что и я всё ещё существую.{w} Так что пока этот мир логичен (хотя бы в какой-то мере), надо играть по его законам!"
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_house_of_mt_day
-	with dissolve
+	scene bg ext_house_of_mt_day with dissolve
 	
 	window show
 	"Я быстрыми шагами направился к домику вожатой."
@@ -440,11 +405,9 @@ label day6_after_map:
 	
 	play sound sfx_open_dooor_campus_1
 	
-	$ pause(1)
+	pause 1
 	
-	$ persistent.sprite_time = "day"
-	scene bg int_house_of_mt_day
-	with dissolve
+	scene bg int_house_of_mt_day with dissolve
 	
 	show mt normal pioneer at center with dissolve
 	window show
@@ -470,19 +433,15 @@ label day6_after_map:
 	
 	play sound sfx_close_door_campus_1
 	
-	$ pause(1)
+	pause 1
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_house_of_mt_day
-	with dissolve
+	scene bg ext_house_of_mt_day with dissolve
 	
 	window show
 	"Я вышел на улицу, громко хлопнув дверью, и направился искать домик Мику и Лены."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_house_of_un_day
-	with dissolve
+	scene bg ext_house_of_un_day with dissolve
 	
 	window show
 	"Хорошо, что девочка-оркестр рассказала мне в своё время, где живёт, поэтому буквально через минуту я уже стоял возле двери их жилища."
@@ -497,11 +456,9 @@ label day6_after_map:
 	
 	play sound sfx_open_dooor_campus_2
 	
-	$ pause(1)
+	pause 1
 	
-	$ persistent.sprite_time = "day"
-	scene bg int_house_of_un_day
-	with dissolve
+	scene bg int_house_of_un_day with dissolve
 	
 	show mi normal pioneer at center with dissolve
 	window show
@@ -518,9 +475,7 @@ label day6_after_map:
 	me "Спасибо."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_house_of_un_day
-	with dissolve
+	scene bg ext_house_of_un_day with dissolve
 	
 	window show
 	"Коротко бросил я и вышел."
@@ -531,9 +486,7 @@ label day6_after_map:
 	"Туда я и направился."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_square_day
-	with dissolve
+	scene bg ext_square_day with dissolve
 	
 	show sl normal pioneer at center with dissolve
 	window show
@@ -552,8 +505,7 @@ label day6_after_map:
 	"Я сделал несколько неуклюжих шагов назад и бросился бежать прочь от этого места."
 	window hide
 	
-	scene bg black
-	with dissolve
+	scene bg black with dissolve
 	
 	window show
 	th "Нет, это была не Славя! Её как будто подменили!{w} Как и всех обитателей этого лагеря."
@@ -564,9 +516,7 @@ label day6_after_map:
 	th "Нет, что-то тут не сходится."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_no_bus
-	with dissolve
+	scene bg ext_no_bus with dissolve
 	
 	window show
 	"Моя голова была готова взорваться, и я начал задыхаться."
@@ -575,8 +525,7 @@ label day6_after_map:
 	th "Наблюдать битву со стороны без угрозы для своей жизни и оказаться в самом её центре не в силах помочь своим – это две большие разницы."
 	window hide
 	
-	scene bg black
-	with dissolve2
+	scene bg black with dissolve2
 	
 	stop music fadeout 3
 	
@@ -584,9 +533,7 @@ label day6_after_map:
 	"..."
 	window hide
 	
-	$ persistent.sprite_time = "sunset"
-	scene bg ext_no_bus_sunset
-	with dissolve2
+	scene bg ext_no_bus_sunset with dissolve2
 	
 	$ sunset_time()
 	
@@ -604,9 +551,7 @@ label day6_after_map:
 	th "Остаётся только ждать, как и всегда…"
 	window hide
 	
-	$ persistent.sprite_time = "sunset"
-	scene bg ext_beach_sunset
-	with dissolve
+	scene bg ext_beach_sunset with dissolve
 	
 	play ambience ambience_lake_shore_evening fadein 3
 	
@@ -675,16 +620,13 @@ label day6_after_map:
 	
 	stop music fadeout 3
 	
-	scene bg black
-	with dissolve2
+	scene bg black with dissolve2
 	
 	window show
 	"..."
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_beach_night
-	with dissolve2
+	scene bg ext_beach_night with dissolve2
 	
 	$ night_time()
 	
@@ -699,9 +641,7 @@ label day6_after_map:
 	"Я встал и медленно поплёлся куда глаза глядят."
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_playground_night
-	with dissolve
+	scene bg ext_playground_night with dissolve
 	
 	play ambience ambience_camp_center_night fadein 3
 	
@@ -775,8 +715,7 @@ label day6_after_map:
 	me "Да, конечно…"
 	window hide
 	
-	scene cg d6_un_evening_1
-	with dissolve
+	scene cg d6_un_evening_1 with dissolve
 	
 	window show
 	"Я сел рядом с ней."
@@ -799,8 +738,7 @@ label day6_after_map:
 	"Лена посмотрела на меня."
 	window hide
 	
-	scene cg d6_un_evening_2
-	with dissolve
+	scene cg d6_un_evening_2 with dissolve
 	
 	window show
 	"В тусклом лунном свете я заметил маленькую слезинку, катящуюся у неё по щеке.{w} Или мне просто показалось…"
@@ -852,9 +790,7 @@ label day6_after_map:
 	me "Ну…{w} Да…"
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_playground_night
-	with dissolve
+	scene bg ext_playground_night with dissolve
 	
 	show un cry pioneer at center with dissolve
 	window show
@@ -888,9 +824,7 @@ label day6_after_map:
 	"В любом случае в тот момент я просто чувствовал, что это необходимо."
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_square_night
-	with dissolve
+	scene bg ext_square_night with dissolve
 	
 	show un normal pioneer far at center with dissolve
 	window show
@@ -988,12 +922,11 @@ label day6_after_map:
 	
 	play music music_list["pile"] fadein 1
 	
-	scene cg d6_un_punch
-	with flash
+	scene cg d6_un_punch with flash
 	
 	play sound sfx_lena_hits_alisa
 	
-	$ pause(1)
+	pause 1
 	
 	window show
 	"Лена подскочила к ней и быстрее, чем я успел опомниться, влепила Алисе мощный хук справа."
@@ -1002,9 +935,7 @@ label day6_after_map:
 	th "Как же поступить мне?"
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_square_night
-	with dissolve
+	scene bg ext_square_night with dissolve
 	
 	menu:
 		"Не вмешиваться":
@@ -1016,8 +947,7 @@ label day6_after_map:
 		"Помочь Алисе":
 			$ lp_un += 1
 	
-	scene cg d6_dv_fight
-	with dissolve
+	scene cg d6_dv_fight with dissolve
 	
 	window show
 	me "Ты что делаешь?!"
@@ -1027,8 +957,7 @@ label day6_after_map:
 	"Да, таким ударом можно и себе руку сломать."
 	window hide
 	
-	scene cg d6_dv_fight_2
-	with dissolve
+	scene cg d6_dv_fight_2 with dissolve
 	
 	window show
 	un "Ты… Ты…{w} Ты же ничего не понимаешь!"
@@ -1038,8 +967,7 @@ label day6_after_map:
 	
 	stop music fadeout 3
 	
-	scene cg d6_dv_fight_3
-	with dissolve
+	scene cg d6_dv_fight_3 with dissolve
 	
 	play ambience ambience_camp_center_night fadein 3
 	
@@ -1051,9 +979,7 @@ label day6_after_map:
 	"Я помог ей подняться."
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_square_night
-	with dissolve
+	scene bg ext_square_night with dissolve
 	
 	show dv sad pioneer at center with dissolve
 	window show
@@ -1066,9 +992,7 @@ label day6_after_map:
 	"Ответила Алиса, силясь улыбнуться."
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_house_of_dv_night
-	with dissolve
+	scene bg ext_house_of_dv_night with dissolve
 	
 	show dv sad pioneer at center with dissolve
 	window show
@@ -1080,7 +1004,7 @@ label day6_after_map:
 	
 	play sound sfx_close_door_campus_1
 	
-	$ pause(1)
+	pause 1
 	
 	window show
 	"Когда за Алисой захлопнулась дверь, я ещё долго стоял и смотрел на её домик."
@@ -1091,9 +1015,7 @@ label day6_after_map:
 	"Усталость одолевала – необходимо было поспать."
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg int_house_of_mt_night2
-	with dissolve
+	scene bg int_house_of_mt_night2 with dissolve
 	
 	play ambience ambience_int_cabin_night fadein 2
 	
@@ -1102,11 +1024,12 @@ label day6_after_map:
 	"Совершенно разбитый, я повалился на кровать и моментально заснул."
 	window hide
 	
-	scene bg black
-	with fade3
+	scene bg black with fade3
 	
 	stop ambience fadeout 3
 	
-	$ renpy.pause(3)
+	pause 3
 	
 	jump day7_un
+
+

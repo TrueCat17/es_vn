@@ -1,8 +1,5 @@
 init -1002 python:
 	
-	location_ext = 'png'
-	
-	
 	# params for location effect <fade>
 	# this does not apply if next_location is cur_location
 	
@@ -39,18 +36,18 @@ init -1002 python:
 	
 	def register_location(name, path_to_images, is_room, xsize, ysize):
 		if name in rpg_locations:
-			out_msg('register_location', 'Location <%s> is already registered' % (name, ))
+			out_msg('register_location', 'Location <%s> is already registered', name)
 		else:
 			rpg_locations[name] = RpgLocation(name, path_to_images, is_room, xsize, ysize)
 	
 	def register_place(location_name, place_name, x, y, xsize, ysize, to = None):
 		location = rpg_locations.get(location_name)
 		if not location:
-			out_msg('register_place', 'Location <%s> was not registered' % (location_name, ))
+			out_msg('register_place', 'Location <%s> was not registered', location_name)
 			return
 		
 		if location.get_place(place_name):
-			out_msg('register_place', 'Place <%s> in location <%s> is already exists' % (place_name, location_name))
+			out_msg('register_place', 'Place <%s> in location <%s> is already exists', place_name, location_name)
 			return
 		
 		
@@ -78,14 +75,14 @@ init -1002 python:
 		
 		location = rpg_locations.get(location_name)
 		if not location:
-			out_msg('set_location', 'Location <%s> was not registered' % (location_name, ))
+			out_msg('set_location', 'Location <%s> was not registered', location_name)
 			return
 		
 		if type(place) is str:
 			place_name = place
 			place = location.get_place(place)
 			if not place:
-				out_msg('set_location', 'Place <%s> in location <%s> not found' % (place_name, location_name))
+				out_msg('set_location', 'Place <%s> in location <%s> not found', place_name, location_name)
 				return
 		
 		if not has_screen('location'):
@@ -115,7 +112,7 @@ init -1002 python:
 			)
 			params = (reg_width, reg_height, real_width, real_height, location_name, main)
 			
-			out_msg('set_location', msg % params)
+			out_msg('set_location', msg, *params)
 		
 		end_location_ambience(cur_location)
 		ignore_prev_rpg_control()
@@ -156,41 +153,40 @@ init -1002 python:
 	
 	location_banned_exits = set()
 	def ban_exit(location_name, place_name = None):
-		location = rpg_locations.get(location_name, None)
+		location = rpg_locations.get(location_name)
 		if location is None:
-			out_msg('ban_exit', 'Location <%s> was not registered' % (location_name, ))
+			out_msg('ban_exit', 'Location <%s> was not registered', location_name)
 			return
 		
 		if place_name is not None:
 			if place_name in location.places:
 				location_banned_exits.add((location_name, place_name))
 			else:
-				out_msg('ban_exit', 'Place <%s> in location <%s> not found' % (place_name, location_name))
+				out_msg('ban_exit', 'Place <%s> in location <%s> not found', place_name, location_name)
 			return
 		
 		for place_name in location.places:
 			location_banned_exits.add((location_name, place_name))
 	
 	def unban_exit(location_name, place_name = None):
-		location = rpg_locations.get(location_name, None)
+		location = rpg_locations.get(location_name)
 		if location is None:
-			out_msg('unban_exit', 'Location <%s> was not registered' % (location_name, ))
+			out_msg('unban_exit', 'Location <%s> was not registered', location_name)
 			return
 		if place_name is not None and place_name not in location.places:
-			out_msg('unban_exit', 'Place <%s> in location <%s> not found' % (place_name, location_name))
+			out_msg('unban_exit', 'Place <%s> in location <%s> not found', place_name, location_name)
 			return
 		
-		tmp_banned_exits = set(location_banned_exits)
-		for tmp_loc, tmp_place in tmp_banned_exits:
+		for tmp_loc, tmp_place in location_banned_exits.copy():
 			if tmp_loc == location_name and (tmp_place == place_name or place_name is None):
 				location_banned_exits.remove((tmp_loc, tmp_place))
 	
 	
-	def get_location_image(directory, name, name_suffix, ext, is_free, need = True):
+	def get_location_image(directory, name, name_suffix, is_free, need = True):
 		cache = get_location_image.__dict__
 		
 		mode = times['current_name']
-		key = directory, name, name_suffix, ext, is_free, mode
+		key = directory, name, name_suffix, is_free, mode
 		if key in cache:
 			return cache[key]
 		
@@ -198,16 +194,20 @@ init -1002 python:
 		if name_suffix:
 			file_name += '_' + name_suffix
 		
-		path = directory + file_name + '_' + mode + '.' + ext
-		if not os.path.exists(path):
-			path = directory + file_name + '.' + ext
-			if os.path.exists(path):
+		path = get_file_with_ext(directory + file_name + '_' + mode)
+		path_is_exists = path and os.path.exists(path)
+		
+		if not path_is_exists:
+			path = get_file_with_ext(directory + file_name)
+			path_is_exists = path and os.path.exists(path)
+			
+			if path_is_exists:
 				if not is_free:
 					r, g, b = location_time_rgb
 					path = im.recolor(path, r, g, b)
 			else:
 				if need:
-					out_msg('get_location_image', 'File <%s> not found' % (path, ))
+					out_msg('get_location_image', 'File <%s> not found', path)
 				path = None
 		
 		cache[key] = path
@@ -215,7 +215,7 @@ init -1002 python:
 	
 	def set_location_scales(name, min_scale, count_scales):
 		if name not in rpg_locations:
-			out_msg('set_location_scales', 'Location <%s> was not registered' % (name, ))
+			out_msg('set_location_scales', 'Location <%s> was not registered', name)
 			return
 		
 		if type(min_scale) is not int or type(count_scales) is not int:
@@ -281,19 +281,19 @@ init -1002 python:
 			return '<RpgLocation %s>' % (self.name, )
 		
 		def get_draw_data(self):
-			return {
-				'image':   self.main(),
-				'size':   (self.xsize, self.ysize),
-				'pos':    (0, 0),
-				'zorder':  0,
-			}
+			res = SimpleObject()
+			res.image = self.main()
+			res.size = (self.xsize, self.ysize)
+			res.pos = (0, 0)
+			res.zorder = 0
+			return res
 		
 		def main(self):
-			return get_location_image(self.directory, 'main', '', location_ext, False)
+			return get_location_image(self.directory, 'main', '', False)
 		def over(self):
-			return get_location_image(self.directory, 'over', '', location_ext, False, False)
+			return get_location_image(self.directory, 'over', '', False, False)
 		def free(self):
-			return get_location_image(self.directory, 'free', '', location_ext, True, False)
+			return get_location_image(self.directory, 'free', '', True, False)
 		
 		def preload(self):
 			for image in self.main(), self.over(), self.free():
@@ -304,7 +304,7 @@ init -1002 python:
 			self.places[place_name] = place
 		
 		def get_place(self, place_name):
-			return self.places.get(place_name, None)
+			return self.places.get(place_name)
 		
 		
 		def update_pos(self):
@@ -469,10 +469,14 @@ init -1002 python:
 		
 		def get_draw_data(self):
 			location = self.location
-			return {
-				'image':   location.over(),
-				'size':   (location.xsize, location.ysize),
-				'pos':    (0, 0),
-				'zorder':  1e6,
-			}
-
+			
+			res = SimpleObject()
+			res.image = location.over()
+			res.size = (location.xsize, location.ysize)
+			res.pos = (0, 0)
+			res.zorder = 1e6
+			
+			return res
+		
+		def free(self):
+			return None

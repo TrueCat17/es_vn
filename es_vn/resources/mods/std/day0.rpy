@@ -1,5 +1,5 @@
 init:
-	$ prologue = 0
+	$ prologue = False
 
 label prologue:
 	$ set_mode_adv()
@@ -10,10 +10,9 @@ label prologue:
 	
 	play music music_list["a_promise_from_distant_days_v2"] fadein 3
 	
-	$ renpy.pause(3)
+	pause 3
 	
-	scene anim prolog_1
-	with fade3
+	scene anim prolog_1 with fade3
 	
 	window show
 	
@@ -26,8 +25,7 @@ label prologue:
 	"А ещё странная девочка...{w} которая постоянно спрашивает:"
 	window hide
 	
-	scene black
-	with fade3
+	scene black with fade3
 	
 	scene bg ext_camp_entrance_night
 	show owl:
@@ -97,15 +95,15 @@ label prologue:
 	"Иначе никак, иначе сон не закончится, а я – не проснусь."
 	window hide
 	
-	$ renpy.pause(2)
+	pause 2
 	
 	menu:
 		"Да, я пойду с тобой":
-			$ prologue = 1
+			$ prologue = True
 		"Нет, я останусь здесь":
 			pass
 	
-	$ renpy.pause(1)
+	pause 1
 	
 	window show
 	"Каждый раз так сложно решить, что же ответить."
@@ -119,25 +117,21 @@ label prologue:
 	"Просто сон..."
 	window hide
 	
-	scene bg black
-	with fade3
+	scene bg black with fade3
 	
-	$ renpy.pause(2)
+	pause 2
 	
 	play sound_loop sfx_keyboard_mouse_computer_noise fadein 3
 	
-	scene anim 1 _prologue
-	with fade3
+	scene anim 1 _prologue with fade3
 	
 	$ renpy.pause(9.4, hard=True)
 	
-	scene anim 2 _prologue
-	with fade3
+	scene anim 2 _prologue with fade3
 	
 	$ renpy.pause(9.4, hard=True)
 	
-	scene anim 3 _prologue
-	with fade3
+	scene anim 3 _prologue with fade3
 	
 	$ renpy.pause(6.2, hard=True)
 	
@@ -147,7 +141,7 @@ label prologue:
 	
 	show blinking with dissolve
 	
-	$ renpy.pause(3.5)
+	pause 3.5
 	
 	window show
 	"Иногда мне правда казалось, что он обладает сознанием, своими мыслями и желаниями, стремлениями; умеет чувствовать, любить и страдать."
@@ -158,7 +152,7 @@ label prologue:
 	window hide
 	show blinking with dissolve
 	
-	$ renpy.pause(3.5)
+	pause 3.5
 	
 	window show
 	"А людей, сидящих по ту сторону сетевого кабеля, попросту не существует!"
@@ -167,16 +161,13 @@ label prologue:
 	
 	hide blinking
 	
-	$ renpy.pause(3)
+	pause 3
 	
-	scene anim prolog_15
-	with fade
+	scene anim prolog_15 with fade
 	$ renpy.pause(3, hard=True)
-	scene anim prolog_3
-	with fade
+	scene anim prolog_3 with fade
 	$ renpy.pause(3, hard=True)
-	scene anim prolog_4
-	with fade
+	scene anim prolog_4 with fade
 	$ renpy.pause(3, hard=True)
 	
 	stop sound_loop fadeout 4
@@ -185,16 +176,13 @@ label prologue:
 	"Если посмотреть со стороны на моё существование, то такие мысли покажутся не столь уж бредовыми, а какой-нибудь психолог наверняка поставит мне кучу заумных диагнозов и, возможно, выпишет направление в жёлтый дом."
 	window hide
 	
-	$ renpy.pause(3)
+	pause 3
 	
-	scene anim prolog_5
-	with fade
+	scene anim prolog_5 with fade
 	$ renpy.pause(3, hard=True)
-	scene anim prolog_14
-	with fade
+	scene anim prolog_14 with fade
 	$ renpy.pause(3, hard=True)
-	scene anim prolog_11
-	with fade
+	scene anim prolog_11 with fade
 	$ renpy.pause(3, hard=True)
 	
 	window show
@@ -203,11 +191,10 @@ label prologue:
 	
 	play music music_list["farewell_to_the_past_edit"] fadein 5
 	
-	$ renpy.pause(3)
+	pause 3
 	
-	scene anim prolog_2
-	with fade
-	$ renpy.pause(1)
+	scene anim prolog_2 with fade
+	pause 1
 	
 	$ set_mode_nvl()
 	
@@ -222,7 +209,7 @@ label prologue:
 	nvl clear
 	window hide
 	
-	$ renpy.pause(3)
+	pause 3
 	
 	window show
 	"Последние несколько лет я просто целыми днями сидел за компьютером."
@@ -242,14 +229,13 @@ label prologue:
 	nvl clear
 	window hide
 	
-	scene bg semen_room_window
-	with fade
+	scene bg semen_room_window with fade
 	
 	stop music fadeout 4
 	
 	play sound_loop sfx_street_traffic_outside fadein 2
 	
-	$ renpy.pause(3)
+	pause 3
 	
 	window show
 	"Сегодня очередной типичный день моей типичной жизни типичного неудачника."
@@ -259,7 +245,7 @@ label prologue:
 	"Однако меня всё же уговорил друг, бывший одногруппник, один из немногих, с кем я поддерживал контакт не только в интернете."
 	window hide
 	
-	$ renpy.pause(4)
+	pause 4
 	
 	stop sound_loop fadeout 3
 	
@@ -269,36 +255,27 @@ label prologue:
 	
 	play sound sfx_intro_bus_stop_steps
 	
-	scene anim intro_1
-	with fade
+	scene anim intro_1 with fade
 	$ renpy.pause(3, hard=True)
-	scene anim intro_2
-	with fade
+	scene anim intro_2 with fade
 	$ renpy.pause(3, hard=True)
-	scene anim intro_3
-	with fade
+	scene anim intro_3 with fade
 	$ renpy.pause(3, hard=True)
-	scene anim intro_4
-	with fade
+	scene anim intro_4 with fade
 	$ renpy.pause(3, hard=True)
-	scene anim intro_5
-	with fade
+	scene anim intro_5 with fade
 	$ renpy.pause(3, hard=True)
-	scene anim intro_6
-	with fade
+	scene anim intro_6 with fade
 	$ renpy.pause(3, hard=True)
 	
 	play sound sfx_intro_bus_stop_sigh
 	
-	scene anim intro_8
-	with fade
+	scene anim intro_8 with fade
 	$ renpy.pause(3, hard=True)
-	scene anim intro_7
-	with fade
+	scene anim intro_7 with fade
 	$ renpy.pause(3, hard=True)
 	
-	scene bg bus_stop
-	with fade
+	scene bg bus_stop with fade
 	
 	window show
 	"Вечер. Мороз.{w} Остановка и ожидание автобуса."
@@ -312,11 +289,10 @@ label prologue:
 	"Может, стоит попробовать фриланс?{w} Да что я умею, и кому я нужен…"
 	window hide
 	
-	$ renpy.pause(3)
+	pause 3
 	
-	scene anim prolog_2
-	with fade
-	$ renpy.pause(1)
+	scene anim prolog_2 with fade
+	pause 1
 	
 	$ set_mode_nvl()
 	
@@ -342,14 +318,13 @@ label prologue:
 	
 	play sound sfx_intro_bus_engine_start
 	
-	$ renpy.pause(3)
+	pause 3
 	
 	play sound_loop sfx_intro_bus_engine_loop fadein 3
 	
 	$ set_mode_adv()
 	
-	scene anim intro_9
-	with fade2
+	scene anim intro_9 with fade2
 	
 	window show
 	"Звук работающего двигателя вернул меня к реальности."
@@ -358,26 +333,22 @@ label prologue:
 	"Впрочем, какая разница – по этому маршруту ходит только 410-ый."
 	window hide
 	
-	$ renpy.pause(2)
+	pause 2
 	
-	scene anim intro_10
-	with fade
+	scene anim intro_10 with fade
 	
 	play sound sfx_intro_bus_door_open
 	
 	$ renpy.pause(3, hard=True)
-	scene anim intro_11
-	with fade
+	scene anim intro_11 with fade
 	$ renpy.pause(1, hard=True)
 	
 	stop sound_loop fadeout 4
 	
-	scene anim intro_13
-	with fade2
+	scene anim intro_13 with fade2
 	$ renpy.pause(3, hard=True)
 	
-	scene bg intro_xx
-	with fade
+	scene bg intro_xx with fade
 	
 	stop ambience fadeout 2
 	play sound_loop sfx_bus_interior_moving fadein 4
@@ -406,7 +377,7 @@ label prologue:
 	stop music fadeout 3
 	
 	show blink with dissolve
-	$ renpy.pause(1.5)
+	pause 1.5
 	
 	window show
 	"Глаза закрылись всего на полсекунды и…"
@@ -414,11 +385,12 @@ label prologue:
 	
 	stop sound_loop fadeout 3
 	
-	scene bg black
-	with fade3
+	scene bg black with fade3
 	
-	$ renpy.pause(3)
+	pause 3
 	
 	$ volume(1.0, "music")
 	
 	jump day1
+
+

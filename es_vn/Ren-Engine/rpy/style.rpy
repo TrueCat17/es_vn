@@ -3,7 +3,7 @@ init -1002 python:
 	def style__get_default_hover(hover, ground, brightness = 0.1):
 		if hover:
 			return hover
-		return im.MatrixColor(ground, im.matrix.brightness(brightness))
+		return im.matrix_color(ground, im.matrix.brightness(brightness))
 	
 	build_object('style')
 	
@@ -20,7 +20,7 @@ init -1002 python:
 					self.__setattr__(name, value)
 		
 		def __contains__(self, key):
-			if attr in screen_lang_complex_props:
+			if key in screen_lang_complex_props:
 				props = get_prop_names(key)
 				for prop in props:
 					if prop not in self:
@@ -55,7 +55,12 @@ init -1002 python:
 				props = get_prop_names(attr)
 				if type(value) in (tuple, list):
 					if len(value) != len(props):
-						out_msg('Style.__setattr__', 'As <value> got %s with len %s, but expected len %s\nAttr: %s; value: %s' % (type(value), len(value), len(props), attr, value))
+						msg = (
+							'As <value> got %s with len %s, but expected len %s\n'
+							'Attr: %s; value: %s'
+						)
+						params = type(value), len(value), len(props), attr, value
+						out_msg('Style.__setattr__', msg, *params)
 						return
 					values = value
 				else:
@@ -89,7 +94,7 @@ init -1002 python:
 					else:
 						relative = get_stage_height()
 						if prop not in ('text_size', 'hover_text_size') and not prop.startswith('y'):
-							out_msg('Style.get_current', 'Set <relative> param for unusual prop <' + prop + '>')
+							out_msg('Style.get_current', 'Set <relative> param for unusual prop <%s>', prop)
 				
 				value = get_absolute(self[prop], relative)
 				value_min = self[prop + '_min']
@@ -122,10 +127,6 @@ init -1002 python:
 
 
 init -1001:
-	style key:
-		first_delay 0.333
-		delay       0.01
-	
 	style default:
 		pos 0
 		anchor 0
@@ -143,17 +144,22 @@ init -1001:
 		skip_mouse False
 		corner_sizes 0
 	
+	style key:
+		first_delay 0.333
+		delay       0.01
+	
 	style screen:
 		modal False
 		save  True
 		zorder 0
 		ignore_modal False
 	
-	style vbox:
+	style vbox is screen:
 		size 0
-	
 	style hbox is vbox
-	style null is vbox
+	
+	style null:
+		size 0
 	
 	style image:
 		size 100
@@ -163,7 +169,7 @@ init -1001:
 		text_size 20
 		text_size_min -1
 		text_size_max -1
-		color 0xFFFFFF
+		color '#FFF'
 		outlinecolor None
 		font 'Calibri'
 		text_align 'left'    # left | center | right
@@ -199,4 +205,3 @@ init -1001:
 	style imagemap:
 		ground ''
 		hover  ''
-

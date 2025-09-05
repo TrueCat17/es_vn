@@ -1,8 +1,8 @@
 init python:
 	day2_map_necessary_done = 0
-	day2_cards_with_sl = 0
-	day2_dv_bet = 0
-	day2_un = 0
+	day2_cards_with_sl = False
+	day2_dv_bet = False
+	day2_un = False
 	d2_gave_keys = False
 
 label day2_main1:
@@ -11,7 +11,7 @@ label day2_main1:
 	
 	scene bg black
 	
-	$ renpy.pause(2)
+	pause 2
 	
 	window show
 	"Мне снился сон…"
@@ -26,9 +26,7 @@ label day2_main1:
 	th "Но что она хочет мне сказать? Кто она?.."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg int_house_of_mt_day
-	with fade2
+	scene bg int_house_of_mt_day with fade2
 	
 	window show
 	"Я проснулся."
@@ -94,11 +92,9 @@ label day2_main1:
 	
 	play sound sfx_close_cabinet
 	
-	$ pause(1)
+	pause 1
 	
-	$ persistent.sprite_time = "day"
-	scene bg int_house_of_mt_day
-	with dissolve
+	scene bg int_house_of_mt_day with dissolve
 	
 	window show
 	th "Вряд ли мой внешний вид влияет на что-то ещё."
@@ -110,9 +106,7 @@ label day2_main1:
 	
 	stop music fadeout 3
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_house_of_mt_day
-	with dissolve
+	scene bg ext_house_of_mt_day with dissolve
 	
 	play ambience ambience_camp_center_day fadein 3
 	
@@ -142,7 +136,7 @@ label day2_main1:
 	hide mt with dissolve
 	window hide
 	
-	$ pause(1)
+	pause 1
 	
 	window show
 	show mt normal panama pioneer at center with dissolve
@@ -175,9 +169,7 @@ label day2_main1:
 	"Я направился в сторону «помывочной»."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_washstand_day
-	with dissolve
+	scene bg ext_washstand_day with dissolve
 	
 	play music music_list["everyday_theme"] fadein 5
 	
@@ -188,13 +180,11 @@ label day2_main1:
 	th "А, да и чёрт с ним! Выбирать всё равно не из чего."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_washstand2_day
-	with dissolve
+	scene bg ext_washstand2_day with dissolve
 	
 	play sound sfx_open_water_sink
 	
-	$ renpy.pause(1)
+	pause 1
 	
 	play sound_loop sfx_water_sink_stream
 	
@@ -211,9 +201,7 @@ label day2_main1:
 	stop sound_loop
 	play sound sfx_close_water_sink
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_washstand_day
-	with dissolve
+	scene bg ext_washstand_day with dissolve
 	
 	window show
 	"Кто-то быстро шёл, даже бежал в мою сторону."
@@ -244,9 +232,7 @@ label day2_main1:
 	"Стоило быстренько забежать «домой», закинуть пакетик с умывальными принадлежностями, съесть бутерброды и только уже потом идти на площадь."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_house_of_mt_day
-	with dissolve
+	scene bg ext_house_of_mt_day with dissolve
 	
 	play sound sfx_open_door_strong
 	
@@ -254,8 +240,7 @@ label day2_main1:
 	"Я распахнул дверь домика вожатой и вбежал внутрь так, как будто запрыгивал в последний вагон уходящего поезда."
 	window hide
 	
-	scene black
-	with dissolve
+	scene black with dissolve
 	
 	play music music_list["awakening_power"] fadein 0
 	
@@ -271,9 +256,7 @@ label day2_main1:
 	
 	stop music fadeout 2
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_house_of_mt_day
-	with dissolve
+	scene bg ext_house_of_mt_day with dissolve
 	
 	play ambience ambience_camp_center_day fadein 3
 	
@@ -287,7 +270,7 @@ label day2_main1:
 	
 	play sound sfx_keys_rattle
 	
-	$ renpy.pause(1)
+	pause 1
 	
 	window show
 	"Она протянула мне ключ.{w} Я положил его в карман."
@@ -300,9 +283,7 @@ label day2_main1:
 	mt "По дороге съешь!"
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_houses_day
-	with dissolve
+	scene bg ext_houses_day with dissolve
 	
 	window show
 	"Мы шли вдоль домиков пионеров, я уплетал бутерброды с колбасой, а Ольга Дмитриевна трещала без умолку.{w} Ву-ву-ву – как трансформатор!"
@@ -341,9 +322,7 @@ label day2_main1:
 	"Узнать хотя бы, где это «здесь» находится!{w} Но…"
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_square_day
-	with dissolve
+	scene bg ext_square_day with dissolve
 	
 	play music music_list["get_to_know_me_better"] fadein 5
 	
@@ -359,8 +338,7 @@ label day2_main1:
 	hide mt with dissolve
 	window hide
 	
-	scene cg d2_lineup
-	with dissolve
+	scene cg d2_lineup with dissolve
 	
 	window show
 	"Пока вожатая рассказывала о плане мероприятий на неделю, я осматривал присутствующих."
@@ -374,7 +352,6 @@ label day2_main1:
 	sl "О чём мечтаешь?"
 	window hide
 	
-	$ persistent.sprite_time = "day"
 	scene bg ext_square_day
 	show sl normal pioneer at cright
 	show mt normal panama pioneer at cleft
@@ -439,9 +416,7 @@ label day2_map:
 label day2_musclub:
 	play ambience ambience_camp_center_day fadein 3
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_musclub_day
-	with dissolve
+	scene bg ext_musclub_day with dissolve
 	
 	window show
 	"Музыкальный клуб – небольшое одноэтажное здание – располагался поодаль от остальных построек лагеря."
@@ -452,11 +427,9 @@ label day2_musclub:
 	
 	play sound sfx_open_door_2
 	
-	$ pause(1)
+	pause 1
 	
-	$ persistent.sprite_time = "day"
-	scene bg int_musclub_day
-	with dissolve
+	scene bg int_musclub_day with dissolve
 	
 	play ambience ambience_music_club_day fadein 3
 	
@@ -465,8 +438,7 @@ label day2_musclub:
 	"Некоторое время я внимательно изучал музыкальные инструменты – хотелось понять, из какого они примерно временного периода, – но неожиданно под роялем послышалось копошение."
 	window hide
 	
-	scene cg d2_miku_piano2
-	with dissolve
+	scene cg d2_miku_piano2 with dissolve
 	
 	play music music_list["so_good_to_be_careless"] fadein 5
 	
@@ -476,8 +448,7 @@ label day2_musclub:
 	me "Простите…"
 	window hide
 	
-	scene cg d2_miku_piano
-	with dissolve
+	scene cg d2_miku_piano with dissolve
 	
 	window show
 	mip "Ааа! Кто здесь?"
@@ -486,16 +457,14 @@ label day2_musclub:
 	play sound sfx_piano_head_bump
 	with vpunch
 	
-	$ renpy.pause(1)
+	pause 1
 	
 	window show
 	"Она попыталась вскочить, но днище рояля стало для неё непреодолимой преградой."
 	mip "Ай!"
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg int_musclub_day
-	with dissolve
+	scene bg int_musclub_day with dissolve
 	
 	show mi shocked pioneer at center with dissolve
 	window show
@@ -529,11 +498,9 @@ label day2_musclub:
 	
 	stop music fadeout 3
 	
-	$ renpy.pause(1)
+	pause 1
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_musclub_day
-	with dissolve
+	scene bg ext_musclub_day with dissolve
 	
 	play ambience ambience_camp_center_day fadein 3
 	
@@ -561,9 +528,7 @@ label day2_musclub:
 label day2_clubs:
 	play ambience ambience_camp_center_day fadein 2
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_clubs_day
-	with dissolve
+	scene bg ext_clubs_day with dissolve
 	
 	window show
 	"Я направился к зданию кружков."
@@ -577,11 +542,9 @@ label day2_clubs:
 	
 	play sound sfx_open_door_clubs
 	
-	$ pause(1)
+	pause 1
 	
-	$ persistent.sprite_time = "day"
-	scene bg int_clubs_male_day
-	with dissolve
+	scene bg int_clubs_male_day with dissolve
 	
 	play ambience ambience_clubs_inside_day fadein 3
 	
@@ -653,9 +616,7 @@ label day2_clubs:
 
 label day2_library:
 	play ambience ambience_camp_center_day fadein 3
-	$ persistent.sprite_time = "day"
-	scene bg ext_library_day
-	with dissolve
+	scene bg ext_library_day with dissolve
 	
 	window show
 	"Вообще, я, конечно, любил читать, но просиживать днями в библиотеке при нынешних обстоятельствах в мои планы не входило."
@@ -664,9 +625,7 @@ label day2_library:
 	
 	stop ambience fadeout 3
 	
-	$ persistent.sprite_time = "day"
-	scene bg int_library_day
-	with dissolve
+	scene bg int_library_day with dissolve
 	
 	play ambience ambience_library_day fadein 3
 	
@@ -685,8 +644,7 @@ label day2_library:
 	"Найти её оказалось не так уж и сложно."
 	window hide
 	
-	scene cg d2_micu_lib
-	with dissolve
+	scene cg d2_micu_lib with dissolve
 	
 	window show
 	"Я пригляделся.{w} Короткая стрижка, толстые очки, довольно приятное лицо."
@@ -694,9 +652,7 @@ label day2_library:
 	th "Пожалуй, подожду – если через полчаса не проснётся, тогда уж что поделать…"
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg int_library_day
-	with dissolve
+	scene bg int_library_day with dissolve
 	
 	window show
 	"Просто так сидеть было скучно, и я взял с полки первую попавшуюся книгу."
@@ -757,9 +713,7 @@ label day2_library:
 	jump day2_map
 
 label day2_aidpost:
-	$ persistent.sprite_time = "day"
-	scene bg ext_aidpost_day
-	with dissolve
+	scene bg ext_aidpost_day with dissolve
 	
 	play ambience ambience_camp_center_day fadein 3
 	
@@ -774,11 +728,9 @@ label day2_aidpost:
 	
 	play sound sfx_open_door_1
 	
-	$ renpy.pause(1)
+	pause 1
 	
-	$ persistent.sprite_time = "day"
-	scene bg int_aidpost_day
-	with dissolve
+	scene bg int_aidpost_day with dissolve
 	
 	play ambience ambience_medstation_inside_day fadein 3
 	
@@ -815,7 +767,7 @@ label day2_aidpost:
 	stop music fadeout 3
 	play sound sfx_knock_door7_polite
 	
-	$ renpy.pause(1)
+	pause 1
 	
 	window show
 	"Но тут в дверь постучали."
@@ -844,9 +796,7 @@ label day2_aidpost:
 	"Я не стал ничего отвечать и вышел, закрыв за собой дверь."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_aidpost_day
-	with dissolve
+	scene bg ext_aidpost_day with dissolve
 	
 	window show
 	th "Медсестра здесь, конечно, ещё та…"
@@ -859,9 +809,7 @@ label day2_aidpost:
 label day2_dinner:
 	$ lp_us += 1
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_dining_hall_away_day
-	with dissolve
+	scene bg ext_dining_hall_away_day with dissolve
 	
 	window show
 	"Я решил всё же сходить пообедать."
@@ -869,9 +817,7 @@ label day2_dinner:
 	"С этими мыслями я вошёл в столовую."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg int_dining_hall_day
-	with dissolve
+	scene bg int_dining_hall_day with dissolve
 	
 	play ambience ambience_dining_hall_empty fadein 3
 	
@@ -888,7 +834,7 @@ label day2_dinner:
 	
 	play music music_list["eat_some_trouble"] fadein 5
 	
-	$ renpy.pause(1)
+	pause 1
 	
 	window show
 	"Однако сосредоточенность моя продлилась недолго – кто-то ударил меня по спине, да так, что я подавился."
@@ -977,7 +923,7 @@ label day2_dinner:
 	
 	play sound sfx_angry_ulyana
 	
-	$ renpy.pause(5)
+	pause 5
 	
 	window show
 	"Через секунду у неё на лице появилось выражение первобытного ужаса, щёки покраснели, а глаза, казалось, готовы были вылезти из орбит."
@@ -994,17 +940,14 @@ label day2_dinner:
 	jump day2_map
 
 label day2_main2:
-	scene black
-	with dissolve2
+	scene black with dissolve2
 	
 	window show
 	"..."
 	"Итак, я собрал все подписи, следовательно, надо зайти к Ольге Дмитриевне, чтобы отдать листок."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_house_of_mt_day
-	with dissolve
+	scene bg ext_house_of_mt_day with dissolve
 	
 	play ambience ambience_camp_center_day fadein 3
 	
@@ -1033,18 +976,14 @@ label day2_main2:
 	th "Ну наконец-то! Я уже проголодался."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_dining_hall_away_day
-	with dissolve
+	scene bg ext_dining_hall_away_day with dissolve
 	
 	window show
 	"Вместе с Ольгой Дмитриевной мы направились к столовой."
 	"Я посмотрел на небо и отметил, что солнце уже начало садиться."
 	window hide
 	
-	$ persistent.sprite_time = "day"
-	scene bg ext_dining_hall_near_day
-	with dissolve
+	scene bg ext_dining_hall_near_day with dissolve
 	
 	show dv normal pioneer at fright
 	show el normal pioneer at fleft
@@ -1094,9 +1033,7 @@ label day2_main2:
 	
 	stop ambience fadeout 2
 	
-	$ persistent.sprite_time = "day"
-	scene bg int_dining_hall_people_day
-	with dissolve
+	scene bg int_dining_hall_people_day with dissolve
 	
 	play ambience ambience_dining_hall_full fadein 3
 	
@@ -1142,9 +1079,7 @@ label day2_main2:
 	
 	$ sunset_time()
 	
-	$ persistent.sprite_time = "sunset"
-	scene bg ext_dining_hall_near_sunset
-	with dissolve2
+	scene bg ext_dining_hall_near_sunset with dissolve2
 	
 	play ambience ambience_camp_center_evening fadein 3
 	
@@ -1163,7 +1098,7 @@ label day2_main2:
 	
 	play sound sfx_pat_shoulder_hard
 	
-	$ pause(1)
+	pause 1
 	
 	window show
 	"Кто-то легонько похлопал меня по плечу."
@@ -1206,7 +1141,7 @@ label day2_main2:
 	
 	menu:
 		"Пойти за картами со Славей":
-			$ day2_cards_with_sl = 1
+			$ day2_cards_with_sl = True
 			$ lp_sl += 1
 			jump day2_cards_with_sl
 		"Пойти одному":
@@ -1221,9 +1156,7 @@ label day2_cards_with_sl:
 	sl "Конечно! Пошли."
 	window hide
 	
-	$ persistent.sprite_time = "sunset"
-	scene bg ext_houses_sunset
-	with dissolve
+	scene bg ext_houses_sunset with dissolve
 	
 	window show
 	"Мы направились в сторону домика вожатой."
@@ -1301,9 +1234,7 @@ label day2_cards_with_sl:
 	"Я решил пока прекратить расспросы."
 	window hide
 	
-	$ persistent.sprite_time = "sunset"
-	scene bg ext_dining_hall_near_sunset
-	with dissolve
+	scene bg ext_dining_hall_near_sunset with dissolve
 	
 	play ambience ambience_camp_center_evening fadein 3
 	
@@ -1333,9 +1264,7 @@ label day2_cards_without_sl:
 	"Я направился к домику Ольги Дмитриевны."
 	window hide
 	
-	$ persistent.sprite_time = "sunset"
-	scene bg ext_houses_sunset
-	with dissolve
+	scene bg ext_houses_sunset with dissolve
 	
 	play ambience ambience_camp_center_evening fadein 2
 	
@@ -1351,13 +1280,11 @@ label day2_cards_without_sl:
 	
 	stop ambience fadeout 2
 	
-	$ persistent.sprite_time = "sunset"
-	scene bg int_house_of_mt_sunset
-	with dissolve
+	scene bg int_house_of_mt_sunset with dissolve
 	
 	play sound sfx_unlock_door_campus
 	
-	$ pause(1)
+	pause 1
 	
 	play ambience ambience_int_cabin_evening fadein 2
 	
@@ -1390,7 +1317,7 @@ label day2_cards_without_sl:
 		
 		play sound sfx_open_door_kick
 		
-		$ renpy.pause(1)
+		pause 1
 		
 		window show
 		"Как вдруг сзади хлопнула дверь."
@@ -1421,9 +1348,7 @@ label day2_cards_without_sl:
 	
 	stop ambience fadeout 2
 	
-	$ persistent.sprite_time = "sunset"
-	scene bg ext_dining_hall_near_sunset
-	with dissolve
+	scene bg ext_dining_hall_near_sunset with dissolve
 	
 	play ambience ambience_camp_center_evening fadein 3
 	
@@ -1459,10 +1384,10 @@ label day2_pre_cards:
 	me "Ну... да, а что такого?"
 	dv "Нет, ничего."
 	show dv smile pioneer at center with dspr:
-		linear 0.5 xalign 0.72
+		linear 0.5 xpos 0.72
 	"Она уже собиралась уходить, но вдруг обернулась и внимательно посмотрела на меня, улыбнувшись."
 	show dv smile pioneer at right:
-		linear 0.5 xalign 0.5
+		linear 0.5 xpos 0.5
 	dv "А в карты-то играть умеешь?"
 	me "Умею немного."
 	"Я никак не мог понять, что ей от меня нужно."
@@ -1539,17 +1464,17 @@ label day2_pre_cards:
 	
 	menu:
 		"Поспорить с Алисой":
-			$ day2_dv_bet = 1
+			$ day2_dv_bet = True
 			$ lp_dv += 2
 			$ lp_un -= 1
 		"Не спорить с Алисой":
-			$ day2_dv_bet = 0
+			$ day2_dv_bet = False
 			$ lp_dv -= 2
 			$ lp_un += 1
 	
 	window show
 	
-	if day2_dv_bet == 1:
+	if day2_dv_bet:
 		th "Возможно, я ещё сто раз пожалею об этом..."
 		me "Ладно, идёт!"
 		show dv smile pioneer at center with dspr
@@ -1584,9 +1509,7 @@ label day2_pre_cards:
 
 
 label day2_cards:
-	$ persistent.sprite_time = "sunset"
-	scene bg int_dining_hall_sunset
-	with dissolve
+	scene bg int_dining_hall_sunset with dissolve
 	
 	play ambience ambience_medium_crowd_indoors_1 fadein 3
 	
@@ -1610,7 +1533,7 @@ label day2_cards:
 	me "Ну, и зачем меня сюда включили?"
 	"Спросил я разочарованно."
 	
-	if day2_dv_bet == 1:
+	if day2_dv_bet:
 		"Ещё пару секунд назад оставалась хоть какая-то надежда, что не придётся участвовать в этом турнире, и благодаря этому появится возможность легально улизнуть от спора с Алисой."
 	else:
 		"Ещё пару секунд назад оставалась хоть какая-то надежда, что не придётся участвовать в этом турнире, и благодаря этому у Алисы не будет повода отомстить мне за то, что не стал с ней спорить."
@@ -1689,9 +1612,7 @@ label day2_cards:
 	"Донёсся мне вслед крик Электроника."
 	window hide
 	
-	$ persistent.sprite_time = "sunset"
-	scene bg ext_dining_hall_away_sunset
-	with dissolve
+	scene bg ext_dining_hall_away_sunset with dissolve
 	
 	play ambience ambience_camp_center_evening fadein 2
 	
@@ -1700,9 +1621,7 @@ label day2_cards:
 	"Я не спеша, стараясь убить как можно больше времени, шёл в сторону библиотеки."
 	window hide
 	
-	$ persistent.sprite_time = "sunset"
-	scene bg ext_square_sunset
-	with dissolve
+	scene bg ext_square_sunset with dissolve
 	
 	play music music_list["your_bright_side"] fadein 5
 	
@@ -1764,9 +1683,7 @@ label day2_cards:
 	"Очевидно, у любого человека есть свои слабые места."
 	window hide
 	
-	$ persistent.sprite_time = "sunset"
-	scene bg int_dining_hall_sunset
-	with dissolve
+	scene bg int_dining_hall_sunset with dissolve
 	
 	play ambience ambience_medium_crowd_indoors_1 fadein 3
 	
@@ -1933,9 +1850,7 @@ label demo_play_after_loop:
 label day_2_cards_continue:
 	$ persistent.CardsDemo = True
 	
-	$ persistent.sprite_time = "sunset"
-	scene bg int_dining_hall_sunset
-	with dissolve
+	scene bg int_dining_hall_sunset with dissolve
 	
 	window show
 	"Электроник, до этого лишь молча наблюдавший за игрой, удовлетворённо кивнул."
@@ -2018,9 +1933,7 @@ label un_play_draw:
 	jump un_play
 
 label un_play_win:
-	$ persistent.sprite_time = "sunset"
-	scene bg int_dining_hall_sunset
-	with dissolve
+	scene bg int_dining_hall_sunset with dissolve
 	
 	window show
 	"Я победил!"
@@ -2031,14 +1944,13 @@ label un_play_win:
 	th "Теперь мне даже неудобно смотреть на неё."
 	"Возможно, следовало всё-таки проиграть, чтобы повысить её самооценку."
 	
-	if day2_dv_bet == 1:
+	if day2_dv_bet:
 		th "Но я же поспорил с Алисой..."
 	
 	"Электроник тем временем с гордостью объявил, что первый тур окончен."
 	window hide
 	
-	scene cg lvl_2_semen_win
-	with dissolve
+	scene cg lvl_2_semen_win with dissolve
 	
 	window show
 	"Через некоторое время на ватмане появилась схема участников второго тура."
@@ -2047,9 +1959,7 @@ label un_play_win:
 	"У меня вырвался обречённый вздох."
 	window hide
 	
-	$ persistent.sprite_time = "sunset"
-	scene bg int_dining_hall_sunset
-	with dissolve
+	scene bg int_dining_hall_sunset with dissolve
 	
 	show us grin pioneer at center with dissolve
 	window show
@@ -2117,9 +2027,7 @@ label us_play_draw:
 	jump us_play
 
 label us_play_win:
-	$ persistent.sprite_time = "sunset"
-	scene bg int_dining_hall_sunset
-	with dissolve
+	scene bg int_dining_hall_sunset with dissolve
 	
 	show us dontlike pioneer at center with dissolve
 	window show
@@ -2179,9 +2087,7 @@ label us2_play_draw:
 	jump us2_play
 
 label us2_play_win:
-	$ persistent.sprite_time = "sunset"
-	scene bg int_dining_hall_sunset
-	with dissolve
+	scene bg int_dining_hall_sunset with dissolve
 	
 	show us dontlike pioneer at center with dissolve
 	window show
@@ -2200,7 +2106,7 @@ label us2_play_win:
 	"Я глупо и неестественно улыбнулся."
 	th "Как будто боюсь её!"
 	me "Поздравляю с победой."
-	if day2_dv_bet == 0:
+	if not day2_dv_bet:
 		show dv angry pioneer at center with dspr
 		dv "Ты ещё пожалеешь, что струсил."
 		th "Да я уже жалею..."
@@ -2246,7 +2152,6 @@ label dv_play_win:
 
 
 label day2_main3:
-	$ persistent.sprite_time = "sunset"
 	scene bg int_dining_hall_sunset with dissolve
 	if has_screen('card_engine'):
 		$ hide_screen('card_engine')
@@ -2270,7 +2175,7 @@ label day2_main3:
 		"Я даже не знал точно почему, но был в этом уверен на 100%%."
 	
 	if day2_card_result == 3:
-		if day2_dv_bet == 1:
+		if day2_dv_bet:
 			$ lp_dv += 2
 			jump day2_dv
 		else:
@@ -2283,7 +2188,6 @@ label day2_main3:
 	
 	window hide
 	
-	$ persistent.sprite_time = "night"
 	scene bg ext_dining_hall_away_night with dissolve
 	
 	play ambience ambience_camp_center_night fadein 2
@@ -2309,9 +2213,7 @@ label day2_main3:
 	$ show_map()
 
 label day2_aidpost_eve:
-	$ persistent.sprite_time = "night"
-	scene bg ext_aidpost_night
-	with dissolve
+	scene bg ext_aidpost_night with dissolve
 	
 	window show
 	"Я просто шёл вперёд, не особо разбирая направления, и оказался у медпункта."
@@ -2322,7 +2224,6 @@ label day2_aidpost_eve:
 	jump day2_main4
 
 label day2_square_eve:
-	$ persistent.sprite_time = "night"
 	scene bg ext_square_night with dissolve
 	
 	window show
@@ -2336,7 +2237,6 @@ label day2_square_eve:
 label day2_beach_eve:
 	stop ambience fadeout 2
 	
-	$ persistent.sprite_time = "night"
 	scene bg ext_beach_night with dissolve
 	
 	play ambience ambience_lake_shore_night fadein 2
@@ -2355,9 +2255,7 @@ label day2_beach_eve:
 	jump day2_main4
 
 label day2_dock_eve:
-	$ persistent.sprite_time = "night"
-	scene bg ext_boathouse_night
-	with dissolve
+	scene bg ext_boathouse_night with dissolve
 	
 	window show
 	"Я решил пойти на пристань."
@@ -2369,9 +2267,7 @@ label day2_dock_eve:
 	jump day2_main4
 
 label day2_busstop_eve:
-	$ persistent.sprite_time = "night"
-	scene bg ext_square_night
-	with dissolve
+	scene bg ext_square_night with dissolve
 	
 	play ambience ambience_camp_center_night fadein 3
 	
@@ -2392,9 +2288,7 @@ label day2_busstop_eve:
 	"Я встал и бездумно направился куда глаза глядят."
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_no_bus_night
-	with dissolve
+	scene bg ext_no_bus_night with dissolve
 	
 	play ambience ambience_camp_entrance_night fadein 3
 	
@@ -2412,7 +2306,7 @@ label day2_busstop_eve:
 	"Но потеряйся я в тайге, и единственным моим спасением стало бы лишь знание того, что мох растёт с северной стороны дерева."
 	"Впрочем, не уверен, что и это бы мне помогло…"
 	
-	if day2_cards_with_sl == 1:
+	if day2_cards_with_sl:
 		$ lp_sl += 1
 		jump day2_sl
 	
@@ -2429,24 +2323,20 @@ label day2_stage_eve:
 		$ lp_us += 1
 		jump day2_us
 	
-	scene black
-	with dissolve
+	scene black with dissolve
 	
 	window show
 	"Я решил пойти на север (по крайней мере туда, где он по моим представлениям находился)."
 	window hide
 	
-	scene bg ext_stage_big_night
-	with dissolve
+	scene bg ext_stage_big_night with dissolve
 	
 	window show
 	"Спустя пару минут вдалеке показалась концертная площадка: несколько рядов деревянных скамеек и деревянная же эстрада."
 	"Я поднялся на сцену."
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_stage_normal_night
-	with dissolve
+	scene bg ext_stage_normal_night with dissolve
 	
 	window show
 	"Там было довольно много всякого музыкального оборудования: колонки, микрофонная стойка и даже пианино."
@@ -2461,13 +2351,11 @@ label day2_stage_eve:
 	jump day2_main4
 
 label day2_football_eve:
-	if day2_card_result == 0 and day2_dv_bet == 0:
+	if day2_card_result == 0 and not day2_dv_bet:
 		$ lp_un += 1
 		jump day2_un
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_playground_night
-	with dissolve
+	scene bg ext_playground_night with dissolve
 	
 	window hide
 	"Для футбола время было позднее, поэтому ни на поле, ни на спортивной площадке никого не оказалось."
@@ -2478,21 +2366,18 @@ label day2_football_eve:
 	jump day2_main4
 
 label day2_dv:
-	scene cg lvl_4_semen_win
-	with dissolve
+	scene cg lvl_4_semen_win with dissolve
 	
 	play music music_list["always_ready"] fadein 5
 	
 	window show
 	"Ура! Я выиграл! Пусть теперь Алиса знает, что со мной лучше не связываться!"
-	if day2_dv_bet == 1:
+	if day2_dv_bet:
 		th "Значит, не зря я всё же с ней поспорил!"
 	"Теперь оставалось надеяться, что она не станет распускать ложные слухи от обиды на поражение."
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_beach_night
-	with dissolve
+	scene bg ext_beach_night with dissolve
 	
 	$ night_time()
 	
@@ -2532,7 +2417,7 @@ label day2_dv:
 	
 	show blink
 	
-	$ renpy.pause(1)
+	pause 1
 	
 	window show
 	"И тут бах!"
@@ -2546,7 +2431,7 @@ label day2_dv:
 	
 	play sound sfx_water_emerge
 	
-	$ pause(1)
+	pause 1
 	
 	window show
 	"Я обернулся и увидел Алису, плывущую за мной."
@@ -2560,9 +2445,7 @@ label day2_dv:
 	
 	stop music fadeout 3
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_beach_night
-	with dissolve
+	scene bg ext_beach_night with dissolve
 	
 	play ambience ambience_lake_shore_night fadein 2
 	
@@ -2609,9 +2492,7 @@ label day2_dv:
 	dv "Ладно, бывай."
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_beach_night
-	with dissolve
+	scene bg ext_beach_night with dissolve
 	
 	window show
 	"Она забрала лежащую рядом одежду и ушла."
@@ -2624,8 +2505,7 @@ label day2_dv:
 	"Было уже поздно, но я решил ещё некоторое время полежать и посмотреть на звёзды."
 	window hide
 	
-	scene stars
-	with dissolve
+	scene stars with dissolve
 	
 	window show
 	"В конце концов, раньше мне редко представлялась такая возможность."
@@ -2641,9 +2521,7 @@ label day2_dv:
 	th "Стоп!{w} Она же и мою одежду забрала!"
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_beach_night
-	with dissolve
+	scene bg ext_beach_night with dissolve
 	
 	window show
 	"Я вскочил и начал осматривать пляж."
@@ -2665,9 +2543,7 @@ label day2_dv:
 	"... бегом!"
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_square_night
-	with dissolve
+	scene bg ext_square_night with dissolve
 	
 	play ambience ambience_camp_center_night fadein 3
 	
@@ -2703,9 +2579,7 @@ label day2_sl:
 	th "И кого ещё принесло?.."
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_clubs_night
-	with dissolve
+	scene bg ext_clubs_night with dissolve
 	
 	window show
 	"Возле здания кружков мне почудилось, что кто-то идёт по тропинке, уходящей в лес."
@@ -2720,9 +2594,7 @@ label day2_sl:
 	
 	play ambience ambience_forest_night fadein 3
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_path_night
-	with dissolve
+	scene bg ext_path_night with dissolve
 	
 	window show
 	"Тропинки сменяли друг друга, и вскоре я оказался в чаще, окончательно потеряв из виду незнакомца."
@@ -2730,8 +2602,7 @@ label day2_sl:
 	"Деревья расступились, и передо мной открылся чудесный вид на небольшое лесное озеро."
 	window hide
 	
-	scene cg d2_slavya_forest
-	with dissolve
+	scene cg d2_slavya_forest with dissolve
 	
 	play music music_list["forest_maiden"] fadein 5
 	
@@ -2746,8 +2617,7 @@ label day2_sl:
 	th "Получается, и в ней скрыта какая-то загадка?"
 	window hide
 	
-	scene bg ext_path_night
-	with dissolve
+	scene bg ext_path_night with dissolve
 	
 	window show
 	"Славя зашла в воду."
@@ -2758,9 +2628,7 @@ label day2_sl:
 	"Возможно, это совсем не ад, а рай?.."
 	"Под ногой предательски хрустнула ветка, Славя обернулась, но в ночи не было никакой возможности разглядеть меня.{w} По крайней мере так казалось."
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_path_night
-	with dissolve
+	scene bg ext_path_night with dissolve
 	
 	window show
 	"Она быстро вылезла из озера, наскоро оделась и скрылась в чаще."
@@ -2771,9 +2639,7 @@ label day2_sl:
 	"Просто – {i}ничего такого{/i}.{w} Ничего, за чем бы стоило подглядывать."
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_square_night
-	with dissolve
+	scene bg ext_square_night with dissolve
 	
 	window show
 	"Наконец мы вышли на площадь."
@@ -2845,11 +2711,9 @@ label day2_sl:
 	jump day2_main4
 
 label day2_un:
-	$ day2_un = 1
+	$ day2_un = True
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_playground_night
-	with dissolve
+	scene bg ext_playground_night with dissolve
 	
 	play ambience ambience_camp_center_night fadein 3
 	
@@ -2913,9 +2777,7 @@ label day2_un:
 	un "Ну, если только с тобой…"
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_path_night
-	with dissolve
+	scene bg ext_path_night with dissolve
 	
 	window show
 	"Мы вышли с площадки, и я начал осматривать деревья."
@@ -2927,8 +2789,7 @@ label day2_un:
 	
 	stop ambience fadeout 2
 	
-	scene cg d2_sovenok
-	with dissolve
+	scene cg d2_sovenok with dissolve
 	
 	play music music_list["confession_oboe"] fadein 5
 	
@@ -2952,9 +2813,7 @@ label day2_un:
 	
 	stop music fadeout 3
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_path_night
-	with dissolve
+	scene bg ext_path_night with dissolve
 	
 	play ambience ambience_camp_center_night fadein 3
 	
@@ -2986,8 +2845,7 @@ label day2_un:
 	jump day2_main4
 
 label day2_us:
-	scene black
-	with dissolve
+	scene black with dissolve
 	
 	window show
 	"События прошедшего дня всё ещё ярко мелькали у меня в голове: чёртов никому не нужный обходной, глупый турнир."
@@ -2998,9 +2856,7 @@ label day2_us:
 	"Также меня никогда не прельщал отдых на черноморских курортах – бескрайние леса и поля были мне куда милее, чем пляжи и барханы."
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_stage_big_night
-	with dissolve
+	scene bg ext_stage_big_night with dissolve
 	
 	play ambience ambience_camp_center_evening fadein 2
 	
@@ -3009,9 +2865,7 @@ label day2_us:
 	"Я поднялся на сцену."
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_stage_normal_night
-	with dissolve
+	scene bg ext_stage_normal_night with dissolve
 	
 	window show
 	"Там было довольно много всякого музыкального оборудования: колонки, микрофонная стойка и даже пианино."
@@ -3036,26 +2890,17 @@ label day2_us:
 	"Оправдываться явно бесполезно."
 	me "Сама всё видела."
 	"Расстроенно сказал я и отвернулся."
-	show us laugh2 pioneer with dspr:
-		xalign 0.5
-		yanchor 1.0
-		rotate 180
+	show us laugh2 pioneer with dspr
 	us "В тебе, я погляжу, умирает талант великого гитариста."
 	"Я ничего не ответил."
-	show us smile pioneer with dspr:
-		xalign 0.5
-		yanchor 1.0
-		rotate 180
+	show us smile pioneer with dspr
 	us "Ну, ладно тебе, не дуйся, смотрелось забавно!"
 	"Она захихикала."
 	me "Забавно, говоришь?"
 	"Фыркнул я."
 	us "Да."
 	"Спокойно ответила Ульяна."
-	show us grin pioneer with dspr:
-		xalign 0.5
-		yanchor 1.0
-		rotate 180
+	show us grin pioneer with dspr
 	us "Подойди-ка сюда."
 	me "Куда?"
 	us "Ко мне!"
@@ -3067,8 +2912,7 @@ label day2_us:
 	us "Лови!"
 	window hide
 	
-	scene cg d2_ussr_falling
-	with dissolve
+	scene cg d2_ussr_falling with dissolve
 	
 	window show
 	"И прыгнула…"
@@ -3082,9 +2926,7 @@ label day2_us:
 	
 	stop music fadeout 3
 	
-	$ persistent.sprite_time = "night"
-	scene bg ext_stage_normal_night
-	with dissolve
+	scene bg ext_stage_normal_night with dissolve
 	
 	play ambience ambience_camp_center_evening fadein 2
 	
@@ -3092,7 +2934,7 @@ label day2_us:
 	
 	show us upset pioneer at center with dissolve
 	
-	$ renpy.pause(1)
+	pause 1
 	
 	show us sad pioneer at center with dspr
 	window show
@@ -3126,9 +2968,7 @@ label day2_us:
 	jump day2_main4
 
 label day2_main4:
-	$ persistent.sprite_time = "night"
-	scene bg ext_house_of_mt_night_without_light
-	with dissolve
+	scene bg ext_house_of_mt_night_without_light with dissolve
 	
 	play music music_list["a_promise_from_distant_days"] fadein 5
 	
@@ -3138,9 +2978,7 @@ label day2_main4:
 	th "Странно, вчера она меня дождалась."
 	window hide
 	
-	$ persistent.sprite_time = "night"
-	scene bg int_house_of_mt_night2
-	with dissolve
+	scene bg int_house_of_mt_night2 with dissolve
 	
 	window show
 	"Я зашёл, тихо разделся и лёг на кровать."
@@ -3163,9 +3001,10 @@ label day2_main4:
 	
 	stop music fadeout 3
 	
-	scene bg black
-	with fade3
+	scene bg black with fade3
 	
-	$ renpy.pause(3)
+	pause 3
 	
 	jump day3_main1
+
+

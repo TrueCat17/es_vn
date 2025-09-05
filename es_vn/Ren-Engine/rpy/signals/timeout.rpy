@@ -14,8 +14,9 @@ init -100000 python:
 	
 	def clear_timeout(id):
 		if id <= 0:
-			out_msg('clear_timeout', 'Invalid id <%s>' % id)
+			out_msg('clear_timeout', 'Invalid id <%s>', id)
 			return
+		
 		i = 0
 		while i < len(_timeout_funcs):
 			if _timeout_funcs[i][0] == id:
@@ -34,7 +35,7 @@ init -100000 python:
 					function()
 				except:
 					func_name = getattr(function, '__name__', str(function))
-					out_msg('exec_timeouts', 'Id = %s, Function = %s' % (id, func_name))
+					out_msg('exec_timeouts', 'Id = %s, Function = %s', id, func_name)
 		
 		i = 0
 		while i < len(_timeout_funcs):
@@ -44,4 +45,3 @@ init -100000 python:
 				_timeout_funcs.pop(i)
 	
 	signals.add('enter_frame', exec_timeouts)
-

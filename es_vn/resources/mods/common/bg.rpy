@@ -156,9 +156,7 @@ init -1000:
 	image bg semen_room_window_ending = "images/bg/semen_room_window.jpg"
 	
 	image bg ext_square_night_flash:
-		size (1.0, 1.0)
-		
-		contains "bg ext_square_night"
+		"bg ext_square_night"
 		
 		contains im.rect('#FFF'):
 			size (1.0, 1.0)

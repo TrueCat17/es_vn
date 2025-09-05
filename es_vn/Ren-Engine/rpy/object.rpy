@@ -1,13 +1,15 @@
 init -1000010 python:
 	object_getattribute = object.__getattribute__
+	object_setattribute = object.__setattr__
 	
 	class Object:
+		# name <_obj> instead of <obj>, because <obj> is often used in kwargs
 		def __init__(self, _obj = None, **kwargs):
-			d = object_getattribute(self, '__dict__')
-			
 			if _obj is not None:
-				d.update(_obj.__dict__)
+				d = _obj.__dict__.copy()
+				object_setattribute(self, '__dict__', d)
 			else:
+				d = object_getattribute(self, '__dict__')
 				d['in_persistent'] = False
 				d['not_persistent_props'] = set()
 			d.update(kwargs)
@@ -145,7 +147,7 @@ init -1000010 python:
 			for prop in not_persistent_props:
 				res.pop(prop, None)
 			return res
-	
+		
 		def __setstate__(self, new_dict):
 			d = object_getattribute(self, '__dict__')
 			d.update(new_dict)

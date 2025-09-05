@@ -2,13 +2,13 @@ init -1000 python:
 	# db = dialogue box
 	
 	
-	def db__make_step(text, start_index, max_count_symbols = -1):
+	def db__make_step(text, start_index, max_count_symbols = 1e9):
 		l = len(text)
 		index = start_index
 		symbols = 0
 		tag = value = None
 		
-		while index < l and (max_count_symbols == -1 or symbols < max_count_symbols):
+		while index < l and symbols < max_count_symbols:
 			while index < l and text[index].isspace():
 				index += 1
 			if index == l:
@@ -57,17 +57,33 @@ init -1000 python:
 				props += [prop, prop + '_min', prop + '_max']
 			
 			if style.endswith('text'):
-				props += ['font', 'size', 'size_min', 'size_max', 'color', 'outlinecolor', 'prefix', 'suffix']
+				props += ['font', 'size', 'size_min', 'size_max', 'color', 'outlinecolor']
 			else:
 				props += ['bg']
 			
 			for prop in props:
 				prop = style + '_' + prop
-				db[prop] = (local_styles if prop in local_styles else gui)[prop]
+				value = (local_styles if prop in local_styles else gui)[prop]
 				if prop.endswith('color'):
-					db[prop] = color_to_int(db[prop])
-				elif prop.endswith('bg') and callable(db[prop]):
-					db[prop] = db[prop]()
+					value = color_to_int(value)
+				elif prop.endswith('bg') and callable(value):
+					value = value()
+				db[prop] = value
+		
+		for prop in ('history_name_bg', 'history_name_bg_style'):
+			db[prop] = (local_styles if prop in local_styles else gui)[prop]
+		
+		# prefixes and suffixes
+		for prop in character_text_edges:
+			if prop in local_styles:
+				value = local_styles[prop]
+			else:
+				prop_without_mode = prop.replace('nvl_', '').replace('history_', '')
+				if prop_without_mode in local_styles:
+					value = local_styles[prop_without_mode]
+				else:
+					value = gui[prop]
+			db[prop] = value
 		
 		for style in ('dialogue_button', 'dialogue_menu_button'):
 			props = []
@@ -87,7 +103,7 @@ init -1000 python:
 				db[prop] = value
 	
 	def db__show_text(name, text, local_styles):
-		text = text.replace('%%', '%') # percent escaping from old renpy versions (see config.old_substitutions)
+		text = text.replace('%%', '%') # percent escaping from old renpy versions (see config.old_substitutions for renpy)
 		text = interpolate_tags(text)
 		
 		if name is None:
@@ -116,7 +132,7 @@ init -1000 python:
 					try:
 						db.pause_after_text = float(value)
 					except:
-						out_msg('db.show_text', 'Pause time <' + value + '> is not float')
+						out_msg('db.show_text', 'Pause time <%s> is not float', value)
 				
 				db.dialogue_text_after_pause = text[index:]
 				text = text[:prev_index]
@@ -128,71 +144,65 @@ init -1000 python:
 		if name is not None:
 			db.start_time = get_game_time()
 			
-			db.name_text = db.name_text_prefix + name + db.name_text_suffix
+			db.name_text = name
 			
 			db.dialogue_text = ''
-			db.dialogue_full_text = db.dialogue_text_prefix + text
-			if not db.dialogue_text_after_pause:
-				db.dialogue_full_text += db.dialogue_text_suffix
-			db.last_dialogue_text_suffix = db.dialogue_text_suffix
+			db.dialogue_full_text = text
 		
 		# continuation of prev text (for <extend> character)
 		else:
 			db.start_time = get_game_time() - len(db.dialogue_text) / config.text_cps
 			
-			if db.last_dialogue_text_suffix and db.dialogue_full_text.endswith(db.last_dialogue_text_suffix):
-				db.dialogue_full_text = db.dialogue_full_text[:-len(db.last_dialogue_text_suffix)]
 			db.dialogue_full_text += text
-			if not db.dialogue_text_after_pause:
-				db.dialogue_full_text += db.last_dialogue_text_suffix
 		
 		if name is not None or db.dialogue_text_after_pause or not db.prev_texts:
-			text_object = [
-				db.name_text, db.name_text_font,     db.name_text_color,     db.name_text_outlinecolor,
-				text,         db.dialogue_text_font, db.dialogue_text_color, db.dialogue_text_outlinecolor
-			]
+			text_object = db.get_cur_text_object(text)
+			db.dialogue.append(text_object)
 			db.prev_texts.append(text_object)
-			db.prev_texts = db.prev_texts[-config.history_length:]
+			db.prev_texts[:-config.history_length] = []
 		else:
-			db.prev_texts[-1][4] += text
+			text_object = db.prev_texts[-1]
+			text_object.dialogue_text += text
 		
 		window_show()
 	
 	
 	def db__recalc_props():
 		if db.local_styles:
-			db._dialogue_button_spacing = gui.get_int('dialogue_button_spacing', obj = db)
-			db._dialogue_button_width = gui.get_int('dialogue_button_width', obj = db)
-			db._dialogue_button_height = gui.get_int('dialogue_button_height', obj = db)
-			if db._dialogue_button_width <= 0 or db._dialogue_button_height <= 0:
-				db._dialogue_button_width = db._dialogue_button_height = db._dialogue_button_spacing = 0
+			screen_tmp.dialogue_button_spacing = gui.get_int('dialogue_button_spacing', obj = db)
+			screen_tmp.dialogue_button_width   = gui.get_int('dialogue_button_width', obj = db)
+			screen_tmp.dialogue_button_height  = gui.get_int('dialogue_button_height', obj = db)
+			if screen_tmp.dialogue_button_width <= 0 or screen_tmp.dialogue_button_height <= 0:
+				screen_tmp.dialogue_button_width = screen_tmp.dialogue_button_height = screen_tmp.dialogue_button_spacing = 0
 			
-			db._dialogue_menu_button_width  = gui.get_int('dialogue_menu_button_width', obj = db)
-			db._dialogue_menu_button_height = gui.get_int('dialogue_menu_button_height', obj = db)
-			if db._dialogue_menu_button_width <= 0 or db._dialogue_menu_button_height <= 0:
-				db._dialogue_menu_button_width = db._dialogue_menu_button_height = 0
+			screen_tmp.dialogue_menu_button_width  = gui.get_int('dialogue_menu_button_width', obj = db)
+			screen_tmp.dialogue_menu_button_height = gui.get_int('dialogue_menu_button_height', obj = db)
+			if screen_tmp.dialogue_menu_button_width <= 0 or screen_tmp.dialogue_menu_button_height <= 0:
+				screen_tmp.dialogue_menu_button_width = screen_tmp.dialogue_menu_button_height = 0
 			
 			if db.dialogue_box_width:
-				db._dialogue_box_width = gui.get_int('dialogue_box_width', obj = db)
+				screen_tmp.dialogue_box_width = gui.get_int('dialogue_box_width', obj = db)
 			else:
-				db._dialogue_box_width = get_stage_width() - 4 * db._dialogue_button_spacing - 2 * db._dialogue_button_width # spc btn spc dialogue spc btn spc
-			db._dialogue_box_height = gui.get_int('dialogue_box_height', obj = db)
+				screen_tmp.dialogue_box_width = ( # spc btn spc dialogue spc btn spc
+					get_stage_width() - 4 * screen_tmp.dialogue_button_spacing - 2 * screen_tmp.dialogue_button_width
+				)
+			screen_tmp.dialogue_box_height = gui.get_int('dialogue_box_height', obj = db)
 			
-			db._dialogue_text_xpos = gui.get_int('dialogue_text_xpos', obj = db)
-			db._dialogue_text_ypos = gui.get_int('dialogue_text_ypos', obj = db)
+			screen_tmp.dialogue_text_xpos = gui.get_int('dialogue_text_xpos', obj = db)
+			screen_tmp.dialogue_text_ypos = gui.get_int('dialogue_text_ypos', obj = db)
 			
-			db._dialogue_text_width = gui.dialogue_text_width
-			if not db._dialogue_text_width:
-				db._dialogue_text_width = db._dialogue_box_width - 2 * db._dialogue_text_xpos
-			db._dialogue_text_height = gui.dialogue_text_height
-			if not db._dialogue_text_height:
-				db._dialogue_text_height = db._dialogue_box_height - 2 * db._dialogue_text_ypos
+			screen_tmp.dialogue_text_width = gui.dialogue_text_width
+			if not screen_tmp.dialogue_text_width:
+				screen_tmp.dialogue_text_width = screen_tmp.dialogue_box_width - 2 * screen_tmp.dialogue_text_xpos
+			screen_tmp.dialogue_text_height = gui.dialogue_text_height
+			if not screen_tmp.dialogue_text_height:
+				screen_tmp.dialogue_text_height = screen_tmp.dialogue_box_height - 2 * screen_tmp.dialogue_text_ypos
 			
-			name_box_width_is_auto = db.name_box_width is None
-			if name_box_width_is_auto:
+			screen_tmp.is_auto = db.name_box_width is None
+			if screen_tmp.is_auto:
 				db.name_box_width = get_text_width(db.name_text_prefix + db.name_text + db.name_text_suffix, gui.get_int('name_text_size', obj = db)) + 20
-			db._name_box_width = gui.get_int('name_box_width', obj = db)
-			if name_box_width_is_auto:
+			screen_tmp.name_box_width = gui.get_int('name_box_width', obj = db)
+			if screen_tmp.is_auto:
 				db.name_box_width = None
 		
 		
@@ -207,14 +217,14 @@ init -1000 python:
 				symbols_to_render -= symbols
 			
 			if index < len(db.dialogue_full_text):
-				db.dialogue_text = db.dialogue_full_text[0:index] + '{invisible}' + db.dialogue_full_text[index:]
+				db.dialogue_text = db.dialogue_full_text[:index] + '{invisible}' + db.dialogue_full_text[index:]
 			else:
 				db.dialogue_text = db.dialogue_full_text
 		else:
 			if db.pause_after_text != 0:
 				if db.pause_end == 0:
 					db.pause_end = get_game_time() + db.pause_after_text
-				elif db.pause_end < get_game_time():
+				elif db.pause_end <= get_game_time():
 					db.pause_after_text = 0
 					db.pause_end = 0
 					db.show_text(None, db.dialogue_text_after_pause, db.local_styles)
@@ -238,17 +248,26 @@ init -1000 python:
 				return
 			db.read = True
 			
-			if db.mode == 'nvl':
-				text_object = (
-					db.name_text,     db.name_text_font,     db.name_text_color,     db.name_text_outlinecolor,
-					db.dialogue_text, db.dialogue_text_font, db.dialogue_text_color, db.dialogue_text_outlinecolor
-				)
-				db.dialogue.append(text_object)
-				db.name_text = db.dialogue_text = db.dialogue_full_text = ''
-			else:
+			if db.mode != 'nvl':
 				db.dialogue = []
 		else:
 			db.dialogue_text = db.dialogue_full_text
+	
+	def db__get_cur_text_object(text = None):
+		if text is None:
+			text = db.dialogue_text
+		
+		res = SimpleObject()
+		res.dialogue_text = text
+		
+		for prop in character_text_edges + ('history_name_bg', 'history_name_bg_style'):
+			res[prop] = db[prop]
+		
+		for prop in ('name_text', 'name_text_font', 'name_text_color', 'name_text_outlinecolor', 'dialogue_text_font', 'dialogue_text_color', 'dialogue_text_outlinecolor'):
+			simple_prop = prop.replace('text_', '')
+			res[simple_prop] = db[prop]
+		
+		return res
 	
 	
 	def db__get_no_skip_time(keys):
@@ -281,9 +300,9 @@ init -1000 python:
 	
 	
 	db.read = True
-	def db__read_func():
+	def db__showed_completely():
 		return db.read
-	can_exec_next_check_funcs.append(db__read_func)
+	can_exec_next_check_funcs.append(db__showed_completely)
 	
 	
 	def db__disable_skipping_on_menu(screen_name):
@@ -309,39 +328,41 @@ init -1000 python:
 	def set_mode_nvl():
 		db.mode = 'nvl'
 		nvl_clear()
-
-
-# after all configurations
-init 1000000 python:
-	narrator('')
-	db.read = True
-	window_hide()
+	
+	
+	def db__on_init_end():
+		narrator('')
+		db.read = True
+		window_hide()
+	signals.add('inited', db__on_init_end, times = 1)
 
 
 
 screen dialogue_box_buttons(disable_next_btn = False):
+	$ screen_tmp = db.screen_tmp # if included from screen <choice_menu>
+	
 	vbox:
 		xalign gui.dialogue_box_xalign
 		yalign gui.dialogue_box_yalign
 		spacing gui.get_int('quick_buttons_top_indent')
 		
-		if db._dialogue_button_width and db.visible:
+		if screen_tmp.get('dialogue_button_width') and db.visible:
 			hbox:
-				spacing db._dialogue_button_spacing
+				spacing screen_tmp.dialogue_button_spacing
 				xalign 0.5
 				
 				button:
 					corner_sizes 0
 					ground db.dialogue_prev_ground
 					hover  style.get_default_hover(db.dialogue_prev_hover, db.dialogue_prev_ground)
-					action    ShowScreen('history')
+					action    show_screen('history')
 					alternate pause_screen.show
 					
 					yalign db.dialogue_button_yalign
-					xsize db._dialogue_button_width
-					ysize db._dialogue_button_height
+					xsize screen_tmp.dialogue_button_width
+					ysize screen_tmp.dialogue_button_height
 				
-				null size (db._dialogue_box_width, db._dialogue_box_height)
+				null size (screen_tmp.dialogue_box_width, screen_tmp.dialogue_box_height)
 				
 				if not screen.disable_next_btn:
 					button:
@@ -352,20 +373,22 @@ screen dialogue_box_buttons(disable_next_btn = False):
 						alternate pause_screen.show
 						
 						yalign db.dialogue_button_yalign
-						xsize db._dialogue_button_width
-						ysize db._dialogue_button_height
+						xsize screen_tmp.dialogue_button_width
+						ysize screen_tmp.dialogue_button_height
 				else:
 					null:
-						xsize db._dialogue_button_width
-						ysize db._dialogue_button_height
+						xsize screen_tmp.dialogue_button_width
+						ysize screen_tmp.dialogue_button_height
 		else:
 			null:
-				ysize db._dialogue_button_height or 0
+				ysize screen_tmp.get('dialogue_button_height', 0)
 		
 		if quick_menu:
+			$ screen.tmp = screen_tmp
 			use quick_menu
+			$ screen_tmp = screen.tmp
 	
-	if db._dialogue_menu_button_width:
+	if screen_tmp.get('dialogue_menu_button_width'):
 		button:
 			corner_sizes 0
 			ground db.dialogue_menu_button_ground
@@ -377,8 +400,8 @@ screen dialogue_box_buttons(disable_next_btn = False):
 			ypos gui.dialogue_menu_button_ypos
 			xanchor gui.dialogue_menu_button_xanchor
 			yanchor gui.dialogue_menu_button_yanchor
-			xsize db._dialogue_menu_button_width
-			ysize db._dialogue_menu_button_height
+			xsize screen_tmp.dialogue_menu_button_width
+			ysize screen_tmp.dialogue_menu_button_height
 	
 	use dialogue_box_skip_keys
 
@@ -390,20 +413,20 @@ screen dialogue_box_adv:
 		spacing gui.get_int('quick_buttons_top_indent')
 		
 		image db.dialogue_box_bg:
-			xsize db._dialogue_box_width
-			ysize db._dialogue_box_height
+			xsize screen_tmp.dialogue_box_width
+			ysize screen_tmp.dialogue_box_height
 			
 			image db.name_box_bg:
 				xanchor gui.name_box_xanchor
 				yanchor gui.name_box_yanchor
 				xpos gui.get_int('name_box_xpos', obj = db)
 				ypos gui.get_int('name_box_ypos', obj = db)
-				xsize db._name_box_width
+				xsize screen_tmp.name_box_width
 				ysize gui.get_int('name_box_height', obj = db)
 				
 				alpha 1 if db.name_text else 0
 				
-				text db.name_text:
+				text (db.name_prefix + db.name_text + db.name_suffix):
 					font         db.name_text_font
 					text_size    gui.get_int('name_text_size', obj = db)
 					color        db.name_text_color
@@ -411,11 +434,11 @@ screen dialogue_box_adv:
 					xalign       gui.name_text_xalign
 					yalign       gui.name_text_yalign
 			
-			text db.dialogue_text:
+			text (db.text_prefix + db.dialogue_text + (db.text_suffix if db.dialogue_text == db.dialogue_full_text else '')):
 				xpos gui.get_int('dialogue_text_xpos', obj = db)
 				ypos gui.get_int('dialogue_text_ypos', obj = db)
-				xsize db._dialogue_text_width
-				ysize db._dialogue_text_height
+				xsize screen_tmp.dialogue_text_width
+				ysize screen_tmp.dialogue_text_height
 				
 				font         db.dialogue_text_font
 				text_size    gui.get_int('dialogue_text_size', obj = db)
@@ -437,44 +460,62 @@ screen dialogue_box_nvl:
 		spacing 0 if gui.nvl_height else gui.get_int('nvl_spacing')
 		
 		python:
-			db.last_dialogue = db.dialogue.copy()
-			if db.dialogue_text:
-				db.last_dialogue.append((
-					db.name_text,     db.name_text_font,     db.name_text_color,     db.name_text_outlinecolor,
-					db.dialogue_text, db.dialogue_text_font, db.dialogue_text_color, db.dialogue_text_outlinecolor
-				))
-			_name_text_yoffset     = max(gui.get_int('dialogue_text_size') - gui.get_int('name_text_size'), 0)
-			_dialogue_text_yoffset = max(gui.get_int('name_text_size') - gui.get_int('dialogue_text_size'), 0)
+			screen_tmp.name_text_size     = gui.get_int('name_text_size')
+			screen_tmp.dialogue_text_size = gui.get_int('dialogue_text_size')
+			
+			screen_tmp.name_text_yoffset     = max(screen_tmp.dialogue_text_size - screen_tmp.name_text_size, 0)
+			screen_tmp.dialogue_text_yoffset = max(screen_tmp.name_text_size - screen_tmp.dialogue_text_size, 0)
+			
+			screen_tmp.nvl_name_xpos   = gui.get_int('nvl_name_xpos')
+			screen_tmp.nvl_name_ypos   = gui.get_int('nvl_name_ypos')
+			screen_tmp.nvl_name_width  = gui.get_int('nvl_name_width')
+			screen_tmp.nvl_name_xalign = gui.nvl_name_xalign
+			
+			for name in ('text', 'thought'):
+				nvl_text_prefix = 'nvl_%s_' % name
+				
+				for prop in ('xpos', 'ypos', 'width'):
+					screen_tmp[nvl_text_prefix + prop] = gui.get_int(nvl_text_prefix + prop)
+				screen_tmp[nvl_text_prefix + 'xalign'] = gui[nvl_text_prefix + 'xalign']
+			
+			screen_tmp.nvl_height = gui.get_int('nvl_height') if gui.nvl_height else -1
 		
-		for _name_text, _name_font, _name_color, _name_outlinecolor, _dialogue_text, _dialogue_font, _dialogue_color, _dialogue_outlinecolor in db.last_dialogue:
+		for text_object in db.dialogue:
 			null:
-				ysize gui.get_int('nvl_height') if gui.nvl_height else -1
+				ysize screen_tmp.nvl_height
 				
-				if _name_text:
-					text (gui.nvl_name_prefix + _name_text + gui.nvl_name_suffix):
-						xpos gui.get_int('nvl_name_xpos')
-						ypos gui.get_int('nvl_name_ypos') + _name_text_yoffset
-						xsize gui.get_int('nvl_name_width')
-						xanchor    gui.nvl_name_xalign
-						text_align gui.nvl_name_xalign
+				if text_object.name_text:
+					text (text_object.nvl_name_prefix + text_object.name_text + text_object.nvl_name_suffix):
+						xpos  screen_tmp.nvl_name_xpos
+						ypos  screen_tmp.nvl_name_ypos + screen_tmp.name_text_yoffset
+						xsize screen_tmp.nvl_name_width
+						xanchor    screen_tmp.nvl_name_xalign
+						text_align screen_tmp.nvl_name_xalign
+						text_size  screen_tmp.name_text_size
 						
-						font         _name_font
-						text_size    gui.get_int('name_text_size')
-						color        _name_color
-						outlinecolor _name_outlinecolor
+						font         text_object.name_font
+						color        text_object.name_color
+						outlinecolor text_object.name_outlinecolor
 				
-				$ nvl_text_prefix = 'nvl_' + ('text' if _name_text else 'thought') + '_'
-				text (gui.nvl_text_prefix + _dialogue_text + gui.nvl_text_suffix):
-					xpos gui.get_int(nvl_text_prefix + 'xpos')
-					ypos gui.get_int(nvl_text_prefix + 'ypos') + (_dialogue_text_yoffset if _name_text else 0)
-					xsize gui.get_int(nvl_text_prefix + 'width')
-					xanchor    gui[nvl_text_prefix + 'xalign']
-					text_align gui[nvl_text_prefix + 'xalign']
+				python:
+					if text_object is db.dialogue[-1] and db.dialogue_text != db.dialogue_full_text:
+						screen_tmp.text = db.dialogue_text
+					else:
+						screen_tmp.text = text_object.dialogue_text + text_object.nvl_text_suffix
+				
+				text (text_object.nvl_text_prefix + screen_tmp.text):
 					
-					font         _dialogue_font
-					text_size    gui.get_int('dialogue_text_size')
-					color        _dialogue_color
-					outlinecolor _dialogue_outlinecolor
+					$ nvl_text_prefix = 'nvl_%s_' % ('text' if text_object.name_text else 'thought')
+					xpos  screen_tmp[nvl_text_prefix + 'xpos']
+					ypos  screen_tmp[nvl_text_prefix + 'ypos'] + (screen_tmp.dialogue_text_yoffset if text_object.name_text else 0)
+					xsize screen_tmp[nvl_text_prefix + 'width']
+					xanchor    screen_tmp[nvl_text_prefix + 'xalign']
+					text_align screen_tmp[nvl_text_prefix + 'xalign']
+					text_size  screen_tmp.dialogue_text_size
+					
+					font         text_object.dialogue_font
+					color        text_object.dialogue_color
+					outlinecolor text_object.dialogue_outlinecolor
 
 
 
@@ -511,9 +552,14 @@ screen dialogue_box_skip_text:
 screen dialogue_box:
 	zorder -2
 	
-	$ show_screen('dialogue_box_skip_text')
+	python:
+		# save tmp in db, because it used in screen <dialogue_box_buttons>, that can be included from <choice_menu>
+		screen_tmp = db.screen_tmp = SimpleObject()
+		
+		if not has_screen('dialogue_box_skip_text'):
+			show_screen('dialogue_box_skip_text')
 	
-	key 'h' action 'db.hide_interface = not db.hide_interface; db.skip_tab = False'
+	key 'H' action 'db.hide_interface = not db.hide_interface; db.skip_tab = False'
 	
 	$ db.to_next = False
 	for key in ('RETURN', 'SPACE'):
@@ -525,8 +571,8 @@ screen dialogue_box:
 	
 	python:
 		db.skip = False
-		if get_game_time() - max(db.last_shift_time, db.last_alt_time) > db.get_no_skip_time('ctrl'):
-			db.skip_ctrl = db.ctrl and get_game_time() - db.press_ctrl_time > db.get_no_skip_time('alt_shift')
+		if get_game_time() - max(db.last_shift_time, db.last_alt_time) > db.get_no_skip_time('alt_shift'):
+			db.skip_ctrl = db.ctrl and get_game_time() - db.press_ctrl_time >= db.get_no_skip_time('ctrl')
 			if db.skip_ctrl or db.skip_tab:
 				db.hide_interface = False
 				db.skip = True
@@ -541,13 +587,13 @@ screen dialogue_box:
 	if not db.hide_interface:
 		$ db.recalc_props()
 		
-		if db.visible:
+		if db.visible and db.local_styles:
 			if db.mode == 'adv':
 				use dialogue_box_adv
 			elif db.mode == 'nvl':
 				use dialogue_box_nvl
 			else:
-				$ out_msg('dialogue_box', 'Expected db.mode will be "adv" or "nvl", got "%s"' % (db.mode, ))
+				$ out_msg('dialogue_box', "Expected db.mode will be 'adv' or 'nvl', got %r", db.mode)
 		
 		button:
 			ground 'images/bg/black.jpg'
@@ -571,5 +617,5 @@ screen dialogue_box:
 			alpha  0.01
 			mouse  False
 			
-			action 'db.hide_interface = False'
-
+			action    'db.hide_interface = False'
+			alternate 'db.hide_interface = False'

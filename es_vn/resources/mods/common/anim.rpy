@@ -51,7 +51,7 @@ init -1000:
 	image anim prologue_keyboard_1 = im.BlurH(im.Scale("images/anim/prologue_keyboard.jpg", get_stage_width(), get_stage_height()), 75)
 	image anim prologue_keyboard_2 = im.BlurH(im.Scale("images/anim/prologue_keyboard.jpg", get_stage_width(), get_stage_height()), 50)
 	image anim prologue_keyboard_3 = im.BlurH(im.Scale("images/anim/prologue_keyboard.jpg", get_stage_width(), get_stage_height()), 25)
-	image anim prologue_keyboard_4 = im.Scale("images/anim/prologue_keyboard.jpg", get_stage_width(), get_stage_height())
+	image anim prologue_keyboard_4 = "images/anim/prologue_keyboard.jpg"
 	
 	image anim prologue_keyboard_monitor_1 = "images/anim/prologue_keyboard_monitor_1.jpg"
 	image anim prologue_keyboard_monitor_2 = "images/anim/prologue_keyboard_monitor_2.jpg"
@@ -61,7 +61,7 @@ init -1000:
 	image anim prologue_monitor_1 = im.BlurH(im.Scale("images/anim/prologue_monitor.jpg", get_stage_width(), get_stage_height()), 75)
 	image anim prologue_monitor_2 = im.BlurH(im.Scale("images/anim/prologue_monitor.jpg", get_stage_width(), get_stage_height()), 50)
 	image anim prologue_monitor_3 = im.BlurH(im.Scale("images/anim/prologue_monitor.jpg", get_stage_width(), get_stage_height()), 25)
-	image anim prologue_monitor_4 = im.Scale("images/anim/prologue_monitor.jpg", get_stage_width(), get_stage_height())
+	image anim prologue_monitor_4 = "images/anim/prologue_monitor.jpg"
 	
 	image anim stars_1 = "images/anim/stars_1.jpg"
 	image anim stars_3 = "images/anim/stars_3.jpg"
@@ -70,7 +70,6 @@ init -1000:
 	image backdrop = "images/anim/backdrop/back.jpg"
 	
 	image backdrop_new:
-		size (1.0, 1.0)
 		"images/anim/backdrop/1.png"
 		pause 0.1
 		"images/anim/backdrop/2.png"
@@ -83,9 +82,8 @@ init -1000:
 	
 	
 	image stars:
-		size (1.0, 1.0)
+		"anim stars_1"
 		
-		contains "anim stars_1"
 		contains "anim stars_3":
 			linear 1.5 alpha 0.0
 			linear 1.5 alpha 1.0
@@ -93,9 +91,8 @@ init -1000:
 	
 	
 	image candle:
-		size (1.0, 1.0)
+		"images/anim/candle_1.png"
 		
-		contains "images/anim/candle_1.png"
 		contains "images/anim/candle_2.png":
 			linear 2 alpha 0.0
 			linear 2 alpha 1.0
@@ -103,9 +100,8 @@ init -1000:
 	
 	
 	image un_ending_bad:
-		size (1.0, 1.0)
+		"cg epilogue_un_bad"
 		
-		contains "cg epilogue_un_bad"
 		contains "cg epilogue_un_bad_red":
 			linear 2 alpha 0.0
 			linear 2 alpha 1.0
@@ -113,7 +109,6 @@ init -1000:
 	
 	
 	image prologue_dream:
-		size (1.0, 1.0)
 		"images/anim/prologue_1.png"
 		pause 0.1
 		"images/anim/prologue_2.png"
@@ -140,7 +135,6 @@ init -1000:
 		"anim prologue_keyboard_1"
 	
 	image anim 2 _prologue:
-		size (1.0, 1.0)
 		"anim prologue_keyboard_monitor_1"
 		pause 6
 		"anim prologue_keyboard_monitor_2"
@@ -182,6 +176,7 @@ init -1000:
 	
 	image unblink:
 		size (1.0, 1.0)
+		alpha 1000 # always opaque (even on dissolve)
 		
 		contains:
 			"anim blink_up"

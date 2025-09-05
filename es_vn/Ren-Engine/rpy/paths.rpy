@@ -63,8 +63,49 @@ init -1000001 python:
 	
 	
 	def get_stack(depth):
-		stack = traceback.format_stack()
-		return stack[:-(depth + 1)]
+		stack = traceback.extract_stack()
+		stack[-(depth + 1):] = []
+		
+		def fix_frame_params(params):
+			filename, numline, _name = params
+			
+			if not filename.startswith('_SL_FILE_'):
+				return
+			
+			screen_name = filename[len('_SL_FILE_'):]
+			screen_code = _get_screen_code(screen_name)
+			
+			lines = screen_code.split('\n')
+			if numline - 1 >= len(lines):
+				return
+			
+			line = lines[numline - 1]
+			
+			i = line.find('#')
+			if i == -1:
+				return
+			
+			comment = line[i+1:].strip()
+			parts = comment.split('|')
+			if len(parts) != 3:
+				return
+			if parts[0] != '_SL_REAL':
+				return
+			
+			filename = parts[1]
+			numline = parts[2]
+			params[:] = [filename, numline]
+		
+		for i, frame in enumerate(stack):
+			params = [frame.filename, frame.lineno, frame.name]
+			fix_frame_params(params)
+			
+			if len(params) == 3:
+				stack[i] = '  File "%s", line %s in %s\n' % tuple(params)
+			else:
+				stack[i] = '  File "%s", line %s\n' % tuple(params)
+		
+		return stack
 	
 	
 	def get_exception_stack_str(e, depth):
@@ -72,15 +113,16 @@ init -1000001 python:
 			msg = '%s (%s, line %s)' % (e.msg, e.filename, e.lineno)
 			text = getattr(e, 'text', None)
 			if text:
-				if '\n' in text:
-					text = text[:text.index('\n')]
+				i = text.find('\n')
+				if i != -1:
+					text = text[:i]
 				msg += '\n  ' + text
 				if e.offset:
 					end_offset = getattr(e, 'end_offset', len(text))
 					msg += '\n  ' + ' ' * (e.offset - 1) + '^' * max(1, end_offset - e.offset)
 		else:
 			exc_type, exc_value, exc_traceback = sys.exc_info()
-			msg = 'Exception (type = ' + type(exc_value).__name__ + '): ' + str(exc_value)
+			msg = 'Exception (type = %s): %s' % (type(exc_value).__name__, exc_value)
 			if exc_traceback:
 				stack = traceback.format_tb(exc_traceback)[depth:]
 				if stack:
@@ -89,18 +131,30 @@ init -1000001 python:
 						msg += frame
 		return msg
 	
-	def out_msg(msg, err = '', show_stack = True):
-		err = str(err)
+	def out_msg(msg, err = '', *args, **kwargs):
+		show_stack = kwargs.pop('show_stack', True)
+		if kwargs:
+			_out_msg('out_msg', 'Unexpected kwargs: %s' % list(kwargs.keys()))
+		
+		exc_desc = ''
 		if show_stack:
 			exc_type, exc_value, exc_traceback = sys.exc_info()
 			if exc_traceback:
 				stack = traceback.format_tb(exc_traceback)
-				err += '\n\nException (type = ' + type(exc_value).__name__ + '): ' + str(exc_value)
+				exc_desc += '\n\nException (type = %s): %s' % (type(exc_value).__name__, exc_value)
 			else:
 				stack = get_stack(1)
-			err += '\n\nStack:\n'
+			exc_desc += '\n\nStack:\n'
 			for frame in stack:
-				err += frame
+				exc_desc += frame
+		
+		err = str(err)
+		try:
+			err = err % tuple(args)
+		except:
+			_out_msg('out_msg', 'Failed to format string')
+		
+		err += exc_desc
 		
 		_out_msg(str(msg), err)
 	
@@ -131,7 +185,7 @@ init -1000001 python:
 				else:
 					i = s.find('=')
 					if i == -1:
-						out_msg('get_name_from_file', 'Line <%s> in file <%s> is incorrect' % (s, path))
+						out_msg('get_name_from_file', 'Line <%s> in file <%s> is incorrect', s, path)
 						continue
 					
 					lang = s[:i].strip()
@@ -144,5 +198,26 @@ init -1000001 python:
 			if key2 in cache:
 				return cache[key2]
 		
-		out_msg('get_name_from_file', 'File <%s> is incorrect')
+		out_msg('get_name_from_file', 'File <%s> is incorrect', path)
 		return 'NoName'
+	
+	
+	def get_file_with_ext(file_without_ext):
+		cache = get_file_with_ext.__dict__
+		
+		if file_without_ext in cache:
+			return cache[file_without_ext]
+		
+		directory = os.path.dirname(file_without_ext)
+		filename = os.path.basename(file_without_ext)
+		
+		for f in os.listdir(directory):
+			name, ext = os.path.splitext(f)
+			if name == filename:
+				res = make_sure_dir(directory) + f
+				break
+		else:
+			res = None
+		
+		cache[file_without_ext] = res
+		return res

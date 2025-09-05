@@ -74,7 +74,7 @@ init -100000 python:
 				try:
 					headers = {}
 					if size:
-						headers['range'] = 'bytes=%s-' % (size, )
+						headers['range'] = 'bytes=%s-' % size
 					
 					from urllib.parse import quote
 					quoted_path = quote(server_file_path) # space -> %20, etc
@@ -83,7 +83,7 @@ init -100000 python:
 					dont_save_https.response = dont_save_https.conn.getresponse()
 					code = dont_save_https.response.getcode()
 					if code >= 400:
-						raise BaseException('Got error code %s' % (code, ))
+						raise BaseException('Got error code %s' % code)
 					
 					dont_save_https.fails = 0
 				except BaseException as e:
@@ -111,7 +111,7 @@ init -100000 python:
 			else:
 				https.close(close_conn = False, stopped = False)
 				del dont_save_https.local_path
-			
+		
 		except BaseException as e:
 			dont_save_https.fails += 1
 			if dont_save_https.fails == 1:

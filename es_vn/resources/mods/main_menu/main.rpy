@@ -57,12 +57,12 @@ label start:
 	#$ db.skip_tab = True
 	
 	if get_current_mod_index() == 0:
-		show bg soviet_games with dissolve
+		scene bg soviet_games with dissolve
 		pause 3
-		show bg disclaimer with dissolve
+		scene bg disclaimer with dissolve
 		pause
 		
-		show bg splashscreen with dissolve:
+		scene bg splashscreen with dissolve:
 			yalign 0.0
 			linear 3 yalign 1.0
 		pause 3
@@ -70,7 +70,7 @@ label start:
 			align 0.5
 		pause 3
 	else:
-		show bg black
+		scene bg black
 	
 	$ show_screen('main_menu')
 	$ renpy.play(main_menu_bgm, fadein = 3)

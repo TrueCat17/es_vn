@@ -144,10 +144,11 @@ init python:
 		bg_cg_image = image_name
 		renpy.call('show_gallery_image')
 
+init:
+	image bg_cg_image = bg_cg_image
+
 
 label show_gallery_image:
-	image bg_cg_image = bg_cg_image
-	
 	$ db.skip_tab = False
 	$ show_screen('dialogue_box')
 	
@@ -208,13 +209,11 @@ screen gallery_bg_cg:
 			button:
 				style 'gallery_prev_btn'
 				action 'bg_page -= 1'
-			key 'LEFT' action 'bg_page -= 1'
 		
 		if bg_page != bg_page_max - 1:
 			button:
 				style 'gallery_next_btn'
 				action 'bg_page += 1'
-			key 'RIGHT' action 'bg_page += 1'
 		
 		text (str(bg_page + 1) + '/' + str(bg_page_max)):
 			style 'gallery_page'
@@ -224,13 +223,11 @@ screen gallery_bg_cg:
 			button:
 				style 'gallery_prev_btn'
 				action 'cg_page -= 1'
-			key 'LEFT' action 'cg_page -= 1'
 		
 		if cg_page != cg_page_max - 1:
 			button:
 				style 'gallery_next_btn'
 				action 'cg_page += 1'
-			key 'RIGHT' action 'cg_page += 1'
 		
 		text (str(cg_page + 1) + '/' + str(cg_page_max)):
 			style 'gallery_page'
